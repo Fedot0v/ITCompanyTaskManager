@@ -66,6 +66,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "tasks.context_processors.cfg_assets_root",
             ],
         },
     },
@@ -127,6 +128,8 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "tasks.Worker"
+
+ASSETS_ROOT = "/static/assets"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

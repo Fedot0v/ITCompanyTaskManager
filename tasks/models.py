@@ -45,6 +45,7 @@ class Task(models.Model):
         default="low"
     )
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
+    assignees = models.ManyToManyField(Worker)
 
     def __str__(self):
         return self.name
