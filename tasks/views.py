@@ -15,7 +15,7 @@ def index(request):
     #num_tasks = Task.objects.filter(user=user).count()  # Фільтруємо за користувачем
     #num_of_available_tasks = Task.objects.filter(user=user, is_completed=False).count()
     #num_of_completed_tasks = Task.objects.filter(user=user, is_completed=True).count()
-    num_tasks = Task.objects.filter().count()  # Фільтруємо за користувачем
+    num_tasks = Task.objects.filter().count()
     num_of_available_tasks = Task.objects.filter(is_completed=False).count()
     num_of_completed_tasks = Task.objects.filter(is_completed=True).count()
     context = {
@@ -42,7 +42,8 @@ class TaskCreateView(CreateView):
 
 class TaskTypeListView(ListView):
     model = TaskType
-    context_object_name = "task_types"
+    context_object_name = "tasks_types"
+    template_name = "tasks/tasktype_list.html"
 
 
 class TaskTypeCreateView(CreateView):
