@@ -79,6 +79,7 @@ class TaskTypeListView(ListView):
     model = TaskType
     context_object_name = "tasks_types"
     template_name = "tasks/tasktype_list.html"
+    paginate_by = 5
 
 
 class TaskTypeCreateView(CreateView):
@@ -97,3 +98,11 @@ class WorkerCreateView(CreateView):
 class WorkerListView(ListView):
     model = Worker
     context_object_name = "workers"
+    paginate_by = 5
+
+
+class WorkerDetailView(DetailView):
+    model = Worker
+    template_name = "tasks/worker_detail.html"
+    context_object_name = "worker"
+
