@@ -98,6 +98,7 @@ class WorkerCreateView(CreateView):
 class WorkerListView(ListView):
     model = Worker
     context_object_name = "workers"
+    template_name = "tasks/workers_list.html"
     paginate_by = 5
 
 
