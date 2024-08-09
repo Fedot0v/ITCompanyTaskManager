@@ -62,3 +62,11 @@ class Task(models.Model):
             return 0
         else:
             return "Deadline is overdue"
+
+    def status(self):
+        if self.is_completed:
+            return "Completed"
+        elif self.days_remaining() == "Deadline is overdue":
+            return "Overdue"
+        else:
+            return "Pending"
