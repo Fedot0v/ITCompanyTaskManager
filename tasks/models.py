@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class TaskType(models.Model):
@@ -45,7 +48,16 @@ class Task(models.Model):
         default="low"
     )
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
-    assignees = models.ManyToManyField(Worker)
+    assignees = models.ManyToManyField(Worker, related_name="task")
 
     def __str__(self):
         return self.name
+
+    def days_remaining(self):
+        today = timezone.now().date()
+        deadline_date = self.deadline.date()
+        if deadline_date >= today:
+            return (deadline_date - today).days
+        else:
+            return 0
+
