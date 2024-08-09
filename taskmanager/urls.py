@@ -17,10 +17,16 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth.views import LogoutView
+from django.urls import path, reverse_lazy
 from django.urls.conf import include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("tasks.urls", namespace="tasks")),
+    path("accounts/logout/confirm/", TemplateView.as_view(template_name='registration/logout_confirm.html'),
+         name='logout-confirm'),
+    path("accounts/logout/", LogoutView.as_view(next_page='login'), name='logout'),
+    path("accounts/", include("django.contrib.auth.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
