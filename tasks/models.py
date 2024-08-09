@@ -58,6 +58,7 @@ class Task(models.Model):
         deadline_date = self.deadline.date()
         if deadline_date >= today:
             return (deadline_date - today).days
-        else:
+        elif deadline_date == today:
             return 0
-
+        else:
+            return "Deadline is overdue"
