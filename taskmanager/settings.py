@@ -129,6 +129,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "tasks.Worker"
 
+LOGIN_REDIRECT_URL = "/"
+
 ASSETS_ROOT = "/static/assets"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
