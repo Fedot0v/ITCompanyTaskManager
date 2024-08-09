@@ -21,13 +21,16 @@ from tasks.models import (
 
 def index(request):
     """View function for the home page of the site."""
-    #user = request.user
-    #num_tasks = Task.objects.filter(user=user).count()  # Фільтруємо за користувачем
-    #num_of_available_tasks = Task.objects.filter(user=user, is_completed=False).count()
-    #num_of_completed_tasks = Task.objects.filter(user=user, is_completed=True).count()
-    num_tasks = Task.objects.filter().count()
-    num_of_available_tasks = Task.objects.filter(is_completed=False).count()
-    num_of_completed_tasks = Task.objects.filter(is_completed=True).count()
+    user = request.user
+    if user.is_authenticated:
+        num_tasks = Task.objects.filter(assignees=user).count()  # Filter by user
+        num_of_available_tasks = Task.objects.filter(assignees=user, is_completed=False).count()
+        num_of_completed_tasks = Task.objects.filter(assignees=user, is_completed=True).count()
+    else:
+        num_tasks = num_of_available_tasks = num_of_completed_tasks = 0
+    # num_tasks = Task.objects.filter().count()
+    # num_of_available_tasks = Task.objects.filter(is_completed=False).count()
+    # num_of_completed_tasks = Task.objects.filter(is_completed=True).count()
     context = {
         "num_tasks": num_tasks,
         "num_of_available_tasks": num_of_available_tasks,
@@ -39,8 +42,16 @@ def index(request):
 class TaskListView(ListView):
     model = Task
     context_object_name = "tasks"
-    template_name = "tasks/tasks_list.html"
+    template_name = "tasks/all_tasks_list.html"
     paginate_by = 5
+
+
+class UserTaskListView(TaskListView):
+    template_name = "tasks/tasks_list.html"
+    context_object_name = "tasks"
+
+    def get_queryset(self):
+        return Task.objects.filter(assignees=self.request.user)
 
 
 class TaskCreateView(CreateView):
@@ -54,6 +65,14 @@ class TaskCreateView(CreateView):
         context['tasks_types'] = TaskType.objects.all()
         context['workers'] = Worker.objects.all()
         return context
+
+
+class TaskDetailView(DetailView):
+    model = Task
+    template_name = "tasks/task_detail.html"
+
+    def get_queryset(self):
+        return Task.objects.select_related('task_type').prefetch_related('assignees')
 
 
 class TaskTypeListView(ListView):
@@ -78,4 +97,3 @@ class WorkerCreateView(CreateView):
 class WorkerListView(ListView):
     model = Worker
     context_object_name = "workers"
-
