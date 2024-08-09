@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -6,7 +8,12 @@ from django.views.generic import (
     CreateView
 )
 
-from tasks.models import Task, TaskType
+from tasks.form import WorkerCreateForm
+from tasks.models import (
+    Task,
+    TaskType,
+    Worker
+)
 
 
 def index(request):
@@ -39,6 +46,12 @@ class TaskCreateView(CreateView):
     success_url = reverse_lazy("tasks:tasks-list")
     template_name = "tasks/tasks_form.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tasks_types'] = TaskType.objects.all()
+        context['workers'] = Worker.objects.all()
+        return context
+
 
 class TaskTypeListView(ListView):
     model = TaskType
@@ -48,7 +61,17 @@ class TaskTypeListView(ListView):
 
 class TaskTypeCreateView(CreateView):
     model = TaskType
-    fields = "__all__"
     success_url = reverse_lazy("tasks:tasks-list")
     template_name = "tasks/tasktype_form.html"
 
+
+class WorkerCreateView(CreateView):
+    model = get_user_model()
+    form_class = WorkerCreateForm
+    template_name = "registration/sign_up.html"
+    success_url = reverse_lazy("login")
+
+
+class WorkerListView(ListView):
+    model = Worker
+    context_object_name = "workers"
