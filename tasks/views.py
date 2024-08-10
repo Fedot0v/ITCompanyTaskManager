@@ -3,14 +3,14 @@ import datetime
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import (
     ListView,
     DetailView,
-    CreateView
+    CreateView, UpdateView
 )
 
 from tasks.form import WorkerCreateForm
@@ -40,6 +40,14 @@ def index(request):
         "num_of_completed_tasks": num_of_completed_tasks,
     }
     return render(request, 'tasks/index.html', context)
+
+
+class TaskAccessMixin:
+    def dispatch(self, request, *args, **kwargs):
+        task = self.get_object()
+        if not request.user in task.assignees.all():
+            return HttpResponseForbidden("You don't have access to this task.")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -78,6 +86,31 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         return Task.objects.select_related('task_type').prefetch_related('assignees')
 
 
+class TaskUpdateView(TaskAccessMixin, UpdateView):
+    model = Task
+    fields = "__all__"
+    template_name = "tasks/task_update.html"
+    context_object_name = "task"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["task_types"] = TaskType.objects.all()
+        context["workers"] = Worker.objects.all()
+        context['assignees'] = self.object.assignees.values_list('id', flat=True)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        task = self.get_object()
+        new_status = request.POST.get('status')
+        if new_status is not None:
+            task.is_completed = new_status == 'True'
+            task.save()
+        return redirect('tasks:tasks-detail', pk=task.pk)
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:tasks-detail", kwargs={"pk": self.object.pk})
+
+
 class TaskTypeListView(LoginRequiredMixin, ListView):
     model = TaskType
     context_object_name = "tasks_types"
@@ -110,3 +143,8 @@ class WorkerDetailView(LoginRequiredMixin, DetailView):
     template_name = "tasks/worker_detail.html"
     context_object_name = "worker"
 
+
+class WorkerUpdateView(LoginRequiredMixin, UpdateView):
+    model = Worker
+    form_class = WorkerCreateForm
+    context_object_name = "worker"
