@@ -146,5 +146,5 @@ class WorkerDetailView(LoginRequiredMixin, DetailView):
 
 class WorkerUpdateView(LoginRequiredMixin, UpdateView):
     model = Worker
-    form_class = WorkerCreateForm
+    template_name = "tasks/worker_update"
     context_object_name = "worker"
