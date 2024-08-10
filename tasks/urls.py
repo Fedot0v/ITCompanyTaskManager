@@ -11,7 +11,7 @@ from .views import (
     UserTaskListView,
     WorkerDetailView,
     WorkerListView,
-    TaskUpdateView
+    TaskUpdateView, WorkerUpdateView
 )
 
 app_name = "tasks"
@@ -28,4 +28,5 @@ urlpatterns = [
     path("signup/", WorkerCreateView.as_view(), name="signup"),
     path("workers/", WorkerListView.as_view(), name="workers-list"),
     path("workers/<int:pk>", WorkerDetailView.as_view(), name="worker-detail"),
+    path("workers/<int:pk>/update/", WorkerUpdateView.as_view(), name="workers-update"),
 ]
