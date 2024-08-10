@@ -1,6 +1,8 @@
 import datetime
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -19,6 +21,7 @@ from tasks.models import (
 )
 
 
+@login_required
 def index(request):
     """View function for the home page of the site."""
     user = request.user
@@ -39,7 +42,7 @@ def index(request):
     return render(request, 'tasks/index.html', context)
 
 
-class TaskListView(ListView):
+class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = "tasks"
     template_name = "tasks/all_tasks_list.html"
@@ -54,7 +57,7 @@ class UserTaskListView(TaskListView):
         return Task.objects.filter(assignees=self.request.user)
 
 
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     fields = "__all__"
     success_url = reverse_lazy("tasks:tasks-list")
@@ -67,7 +70,7 @@ class TaskCreateView(CreateView):
         return context
 
 
-class TaskDetailView(DetailView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = "tasks/task_detail.html"
 
@@ -75,14 +78,14 @@ class TaskDetailView(DetailView):
         return Task.objects.select_related('task_type').prefetch_related('assignees')
 
 
-class TaskTypeListView(ListView):
+class TaskTypeListView(LoginRequiredMixin, ListView):
     model = TaskType
     context_object_name = "tasks_types"
     template_name = "tasks/tasktype_list.html"
     paginate_by = 5
 
 
-class TaskTypeCreateView(CreateView):
+class TaskTypeCreateView(LoginRequiredMixin, CreateView):
     model = TaskType
     success_url = reverse_lazy("tasks:tasks-list")
     template_name = "tasks/tasktype_form.html"
@@ -95,14 +98,14 @@ class WorkerCreateView(CreateView):
     success_url = reverse_lazy("login")
 
 
-class WorkerListView(ListView):
+class WorkerListView(LoginRequiredMixin, ListView):
     model = Worker
     context_object_name = "workers"
     template_name = "tasks/workers_list.html"
     paginate_by = 5
 
 
-class WorkerDetailView(DetailView):
+class WorkerDetailView(LoginRequiredMixin, DetailView):
     model = Worker
     template_name = "tasks/worker_detail.html"
     context_object_name = "worker"
