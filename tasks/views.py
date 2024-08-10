@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -17,7 +18,7 @@ from tasks.form import WorkerCreateForm
 from tasks.models import (
     Task,
     TaskType,
-    Worker
+    Worker, Position
 )
 
 
@@ -146,5 +147,24 @@ class WorkerDetailView(LoginRequiredMixin, DetailView):
 
 class WorkerUpdateView(LoginRequiredMixin, UpdateView):
     model = Worker
-    template_name = "tasks/worker_update"
+    fields = ["username", "first_name", "last_name", "email", "position"]
+    template_name = "tasks/worker_update.html"
     context_object_name = "worker"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["positions"] = Position.objects.all()
+        return context
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if self.request.user != obj:
+            raise PermissionDenied
+        return obj
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        return response
+
+    def form_invalid(self, form):
+        # Обрабатываем ошибки валидации формы
+        return super().form_invalid(form)
