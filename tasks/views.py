@@ -14,7 +14,7 @@ from django.views.generic import (
     CreateView, UpdateView
 )
 
-from tasks.form import WorkerCreateForm, WorkerSearchForm
+from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm
 from tasks.models import (
     Task,
     TaskType,
@@ -57,13 +57,87 @@ class TaskListView(LoginRequiredMixin, ListView):
     template_name = "tasks/all_tasks_list.html"
     paginate_by = 3
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = TaskSearchForm(self.request.GET)
+
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            assignees = form.cleaned_data["assignees"]
+            tasktype = form.cleaned_data["tasktype"]
+            status = form.cleaned_data["status"]
+
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+            if assignees:
+                queryset = queryset.filter(assignees__in=assignees).distinct()
+            if tasktype:
+                queryset = queryset.filter(task_type=tasktype)
+            if status == 'pending':
+                queryset = queryset.filter(is_completed=False, deadline__gte=timezone.now())
+            elif status == 'completed':
+                queryset = queryset.filter(is_completed=True)
+            elif status == 'overdue':
+                queryset = queryset.filter(deadline__lt=timezone.now(), is_completed=False)
+
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        assignees = self.request.GET.getlist("assignees")  # Use getlist for multiple selections
+        tasktype = self.request.GET.get("tasktype", "")
+        status = self.request.GET.get("status", "")
+
+        # Make sure to convert assignees and tasktype to the appropriate types if needed
+        context['search_form'] = TaskSearchForm(initial={
+            "name": name,
+            "assignees": assignees,
+            # This might need to be adjusted based on how ModelMultipleChoiceField handles input
+            "tasktype": tasktype,
+            "status": status
+        })
+        return context
+
 
 class UserTaskListView(TaskListView):
     template_name = "tasks/tasks_list.html"
     context_object_name = "tasks"
 
     def get_queryset(self):
-        return Task.objects.filter(assignees=self.request.user)
+        queryset = Task.objects.filter(assignees=self.request.user)
+        form = TaskSearchForm(self.request.GET)
+
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            tasktype = form.cleaned_data["tasktype"]
+            status = form.cleaned_data["status"]
+
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+            if tasktype:
+                queryset = queryset.filter(task_type=tasktype)
+            if status == 'pending':
+                queryset = queryset.filter(is_completed=False, deadline__gte=timezone.now())
+            elif status == 'completed':
+                queryset = queryset.filter(is_completed=True)
+            elif status == 'overdue':
+                queryset = queryset.filter(deadline__lt=timezone.now(), is_completed=False)
+
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        tasktype = self.request.GET.get("tasktype", "")
+        status = self.request.GET.get("status", "")
+
+        context['search_form'] = TaskSearchForm(initial={
+            "name": name,
+            "tasktype": tasktype,
+            "status": status
+        })
+        return context
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
