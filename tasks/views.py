@@ -14,7 +14,7 @@ from django.views.generic import (
     CreateView, UpdateView
 )
 
-from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm
+from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm
 from tasks.models import (
     Task,
     TaskType,
@@ -272,5 +272,11 @@ class ProjectListView(LoginRequiredMixin, ListView):
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
+    form_class = ProjectCreateForm
     context_object_name = "project"
     template_name = "tasks/project_form.html"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
