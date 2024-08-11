@@ -266,4 +266,11 @@ class WorkerUpdateView(LoginRequiredMixin, UpdateView):
 class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     context_object_name = "projects"
-    template_name = "tasks/projects_list"
+    template_name = "tasks/projects_list.html"
+    paginate_by = 5
+
+
+class ProjectCreateView(LoginRequiredMixin, CreateView):
+    model = Project
+    context_object_name = "project"
+    template_name = "tasks/project_form.html"
