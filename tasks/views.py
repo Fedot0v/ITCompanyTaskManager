@@ -275,8 +275,15 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     form_class = ProjectCreateForm
     context_object_name = "project"
     template_name = "tasks/project_form.html"
+    success_url = reverse_lazy("tasks:project-list")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
         return kwargs
+
+
+class ProjectDetailView(LoginRequiredMixin, DetailView):
+    model = Project
+    context_object_name = "project"
+    template_name = "tasks/project_detail.html"
