@@ -27,3 +27,8 @@ class WorkerCreateForm(UserCreationForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords must match")
         return password2
+
+
+class WorkerSearchForm(forms.Form):
+    username = forms.CharField(max_length=255, required=False)
+    last_name = forms.CharField(max_length=255, required=False)
