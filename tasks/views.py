@@ -43,12 +43,18 @@ def index(request):
     return render(request, 'tasks/index.html', context)
 
 
-class TaskAccessMixin:
+class AccessMixin:
+    model = None  # Model should be defined in the subclass
+
     def dispatch(self, request, *args, **kwargs):
-        task = self.get_object()
-        if not request.user in task.assignees.all():
-            return HttpResponseForbidden("You don't have access to this task.")
+        obj = self.get_object()
+        if not request.user in obj.assignees.all() and not request.user == obj.creator:
+            return HttpResponseForbidden("You don't have access to this object.")
         return super().dispatch(request, *args, **kwargs)
+
+
+class TaskAccessMixin(AccessMixin):
+    model = Task
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -273,17 +279,42 @@ class ProjectListView(LoginRequiredMixin, ListView):
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     form_class = ProjectCreateForm
-    context_object_name = "project"
     template_name = "tasks/project_form.html"
-    success_url = reverse_lazy("tasks:project-list")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
+        kwargs['user'] = self.request.user
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['workers'] = Worker.objects.all()
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:projects-detail", kwargs={"pk": self.object.pk})
 
 
 class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     context_object_name = "project"
     template_name = "tasks/project_detail.html"
+
+
+class ProjectAccessMixin(AccessMixin):
+    model = Project
+
+
+class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
+    model = Project
+    form_class = ProjectCreateForm
+    template_name = "tasks/project_update.html"
+    context_object_name = "project"
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:project-detail", kwargs={"pk": self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['workers'] = Worker.objects.all()  # Ensure workers are included
+        return context
