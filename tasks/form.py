@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from tasks.models import Worker, Position, Task
+from tasks.models import Worker, Position, Task, TaskType
 
 
 class WorkerCreateForm(UserCreationForm):
@@ -32,3 +32,26 @@ class WorkerCreateForm(UserCreationForm):
 class WorkerSearchForm(forms.Form):
     username = forms.CharField(max_length=255, required=False)
     last_name = forms.CharField(max_length=255, required=False)
+
+
+class TaskSearchForm(forms.Form):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('overdue', 'Overdue'),
+    ]
+    name = forms.CharField(max_length=255, required=False)
+    assignees = forms.ModelMultipleChoiceField(queryset=Worker.objects.all(), required=False)
+    tasktype = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
+    status = forms.ChoiceField(choices=STATUS_CHOICES, required=False)
+
+
+class UserTaskListSearchForm(forms.Form):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('overdue', 'Overdue'),
+    ]
+    name = forms.CharField(max_length=255, required=False)
+    tasktype = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
+    status = forms.ChoiceField(choices=STATUS_CHOICES, required=False)
