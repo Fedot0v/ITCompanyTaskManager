@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from tasks.models import Worker, Position, Task, TaskType
+from tasks.models import Worker, Position, Task, TaskType, Project, Team
 
 
 class WorkerCreateForm(UserCreationForm):
@@ -55,3 +55,15 @@ class UserTaskListSearchForm(forms.Form):
     name = forms.CharField(max_length=255, required=False)
     tasktype = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
     status = forms.ChoiceField(choices=STATUS_CHOICES, required=False)
+
+
+class ProjectCreateForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields["team"].queryset = Team.objects.filter(members=user)
