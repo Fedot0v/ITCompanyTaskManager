@@ -18,7 +18,7 @@ from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm
 from tasks.models import (
     Task,
     TaskType,
-    Worker, Position
+    Worker, Position, Project
 )
 
 
@@ -261,3 +261,9 @@ class WorkerUpdateView(LoginRequiredMixin, UpdateView):
         if self.request.user != obj:
             raise PermissionDenied
         return obj
+
+
+class ProjectListView(LoginRequiredMixin, ListView):
+    model = Project
+    context_object_name = "projects"
+    template_name = "tasks/projects_list"
