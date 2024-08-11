@@ -57,28 +57,6 @@ class Worker(AbstractUser):
         return f"{self.first_name} {self.last_name}: {self.position}"
 
 
-class Task(DeadlineMixin, models.Model):
-    PRIORITY_CHOICES = {
-        "urgent": "Urgent",
-        "high": "High",
-        "medium": "Medium",
-        "low": "Low",
-    }
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    deadline = models.DateTimeField()
-    priority = models.CharField(
-        max_length=255,
-        choices=PRIORITY_CHOICES,
-        default="low"
-    )
-    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
-    assignees = models.ManyToManyField(Worker, related_name="task")
-
-    def __str__(self):
-        return self.name
-
-
 class Team(models.Model):
     name = models.CharField(max_length=255)
     members = models.ManyToManyField(Worker, related_name="team")
@@ -96,3 +74,36 @@ class Project(DeadlineMixin, models.Model):
     def __str__(self):
         return self.name
 
+
+class Task(DeadlineMixin, models.Model):
+    PRIORITY_CHOICES = {
+        "urgent": "Urgent",
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+    }
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    deadline = models.DateTimeField()
+    priority = models.CharField(
+        max_length=255,
+        choices=PRIORITY_CHOICES,
+        default="low"
+    )
+    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
+    assignees = models.ManyToManyField(Worker, related_name="task")
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.name
