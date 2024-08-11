@@ -55,7 +55,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = "tasks"
     template_name = "tasks/all_tasks_list.html"
-    paginate_by = 5
+    paginate_by = 3
 
 
 class UserTaskListView(TaskListView):
@@ -116,13 +116,14 @@ class TaskTypeListView(LoginRequiredMixin, ListView):
     model = TaskType
     context_object_name = "tasks_types"
     template_name = "tasks/tasktype_list.html"
-    paginate_by = 5
+    paginate_by = 4
 
 
 class TaskTypeCreateView(LoginRequiredMixin, CreateView):
     model = TaskType
-    success_url = reverse_lazy("tasks:tasks-list")
+    success_url = reverse_lazy("tasks:taskstype-list")
     template_name = "tasks/tasktype_form.html"
+    fields = ["name"]
 
 
 class WorkerCreateView(CreateView):
@@ -151,6 +152,9 @@ class WorkerUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "tasks/worker_update.html"
     context_object_name = "worker"
 
+    def get_success_url(self):
+        return reverse_lazy("tasks:worker-detail", kwargs={"pk": self.object.id})
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["positions"] = Position.objects.all()
@@ -161,10 +165,3 @@ class WorkerUpdateView(LoginRequiredMixin, UpdateView):
         if self.request.user != obj:
             raise PermissionDenied
         return obj
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        return response
-
-    def form_invalid(self, form):
-        # Обрабатываем ошибки валидации формы
-        return super().form_invalid(form)
