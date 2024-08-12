@@ -64,7 +64,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('-deadline')
         form = TaskSearchForm(self.request.GET)
 
         if form.is_valid():
@@ -108,28 +108,9 @@ class TaskListView(LoginRequiredMixin, ListView):
 
 class UserTaskListView(TaskListView):
     template_name = "tasks/tasks_list.html"
-    context_object_name = "tasks"
 
     def get_queryset(self):
-        queryset = Task.objects.filter(assignees=self.request.user)
-        form = TaskSearchForm(self.request.GET)
-
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            tasktype = form.cleaned_data["tasktype"]
-            status = form.cleaned_data["status"]
-
-            if name:
-                queryset = queryset.filter(name__icontains=name)
-            if tasktype:
-                queryset = queryset.filter(task_type=tasktype)
-            if status == 'pending':
-                queryset = queryset.filter(is_completed=False, deadline__gte=timezone.now())
-            elif status == 'completed':
-                queryset = queryset.filter(is_completed=True)
-            elif status == 'overdue':
-                queryset = queryset.filter(deadline__lt=timezone.now(), is_completed=False)
-
+        queryset = super().get_queryset().filter(assignees=self.request.user)
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -190,6 +171,10 @@ class TaskUpdateView(TaskAccessMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("tasks:tasks-detail", kwargs={"pk": self.object.pk})
+
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
 
 
 class TaskTypeListView(LoginRequiredMixin, ListView):
@@ -312,9 +297,9 @@ class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
     context_object_name = "project"
 
     def get_success_url(self):
-        return reverse_lazy("tasks:project-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy("tasks:projects-detail", kwargs={"pk": self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['workers'] = Worker.objects.all()  # Ensure workers are included
+        context['workers'] = Worker.objects.all()
         return context
