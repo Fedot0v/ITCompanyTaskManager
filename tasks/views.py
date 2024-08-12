@@ -14,7 +14,7 @@ from django.views.generic import (
     CreateView, UpdateView
 )
 
-from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm
+from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm, TaskCreateForm
 from tasks.models import (
     Task,
     TaskType,
@@ -129,7 +129,7 @@ class UserTaskListView(TaskListView):
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = "__all__"
+    form_class = TaskCreateForm
     success_url = reverse_lazy("tasks:tasks-list")
     template_name = "tasks/tasks_form.html"
 
@@ -150,7 +150,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
 
 class TaskUpdateView(TaskAccessMixin, UpdateView):
     model = Task
-    fields = "__all__"
+    form_class = TaskCreateForm
     template_name = "tasks/task_update.html"
     context_object_name = "task"
 
