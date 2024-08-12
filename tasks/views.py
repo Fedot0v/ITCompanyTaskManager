@@ -15,11 +15,12 @@ from django.views.generic import (
     CreateView, UpdateView
 )
 
-from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm, TaskCreateForm
+from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm, TaskCreateForm, \
+    TeamCreateForm
 from tasks.models import (
     Task,
     TaskType,
-    Worker, Position, Project
+    Worker, Position, Project, Team
 )
 
 
@@ -181,7 +182,6 @@ class TaskUpdateView(TaskAccessMixin, UpdateView):
         return reverse_lazy("tasks:tasks-detail", kwargs={"pk": self.object.pk})
 
 
-
 class TaskTypeListView(LoginRequiredMixin, ListView):
     model = TaskType
     context_object_name = "tasks_types"
@@ -308,3 +308,8 @@ class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['workers'] = Worker.objects.all()
         return context
+
+
+class TeamCreatView(LoginRequiredMixin, CreateView):
+    model = Team
+    form_class = TeamCreateForm
