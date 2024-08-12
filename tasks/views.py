@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -162,19 +163,23 @@ class TaskUpdateView(TaskAccessMixin, UpdateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        task = self.get_object()
-        new_status = request.POST.get('status')
-        if new_status is not None:
-            task.is_completed = new_status == 'True'
-            task.save()
-        return redirect('tasks:tasks-detail', pk=task.pk)
+        self.object = self.get_object()
+        form = self.get_form()
+
+        if 'status' in request.POST:
+            new_status = request.POST.get('status')
+            if new_status is not None:
+                self.object.is_completed = new_status == 'True'
+                self.object.save()
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def get_success_url(self):
         return reverse_lazy("tasks:tasks-detail", kwargs={"pk": self.object.pk})
 
-    def form_invalid(self, form):
-        print(form.errors)
-        return super().form_invalid(form)
 
 
 class TaskTypeListView(LoginRequiredMixin, ListView):
