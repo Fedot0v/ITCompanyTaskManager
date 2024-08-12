@@ -265,6 +265,10 @@ class ProjectListView(LoginRequiredMixin, ListView):
     template_name = "tasks/projects_list.html"
     paginate_by = 5
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(assignees=self.request.user)
+
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
@@ -310,6 +314,12 @@ class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
         return context
 
 
-class TeamCreatView(LoginRequiredMixin, CreateView):
+class TeamCreateView(LoginRequiredMixin, CreateView):
     model = Team
     form_class = TeamCreateForm
+
+
+class TeamListView(LoginRequiredMixin, ListView):
+    model = Team
+    context_object_name = "teams"
+    template_name = "tasks/teams_list.html"
