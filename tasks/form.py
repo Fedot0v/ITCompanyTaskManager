@@ -87,3 +87,16 @@ class TaskCreateForm(forms.ModelForm):
         model = Task
         fields = "__all__"
         exclude = ['start_date', 'is_completed']
+
+
+class TeamCreateForm(forms.ModelForm):
+    members = forms.ModelMultipleChoiceField(
+        queryset=get_user_model().objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    class Meta:
+        model = Team
+        fields = "__all__"
+        exclude = ['start_date', 'is_completed']
+
