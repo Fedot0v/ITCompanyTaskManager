@@ -98,5 +98,27 @@ class TeamCreateForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = "__all__"
-        exclude = ['start_date', 'is_completed']
+        exclude = ['start_date', 'is_completed', "created_by"]
 
+
+class TeamSearchForm(forms.Form):
+    name = forms.CharField(required=False, label="Name")
+    start_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="Start Date"
+    )
+
+
+class ProjectSearchForm(forms.Form):
+    name = forms.CharField(required=False, label="Name")
+    start_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="Start Date"
+    )
+    deadline = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label="Deadline"
+    )
