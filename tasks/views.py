@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.views.generic import (
     ListView,
     DetailView,
-    CreateView, UpdateView
+    CreateView, UpdateView, DeleteView
 )
 
 from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm, TaskCreateForm, \
@@ -183,6 +183,12 @@ class TaskUpdateView(TaskAccessMixin, UpdateView):
         return reverse_lazy("tasks:tasks-detail", kwargs={"pk": self.object.pk})
 
 
+class TaskDeleteView(LoginRequiredMixin, DeleteView, AccessMixin):
+    model = Task
+    success_url = reverse_lazy("tasks:tasks-list")
+    template_name = "tasks/confirm_delete.html"
+
+
 class TaskTypeListView(LoginRequiredMixin, ListView):
     model = TaskType
     context_object_name = "tasks_types"
@@ -196,6 +202,11 @@ class TaskTypeCreateView(LoginRequiredMixin, CreateView):
     template_name = "tasks/tasktype_form.html"
     fields = ["name"]
 
+
+class TaskTypeDeleteView(LoginRequiredMixin, CreateView, AccessMixin):
+    model = TaskType
+    success_url = reverse_lazy("tasks:tasktype-list")
+    template_name = "tasks/confirm_delete.html"
 
 class WorkerCreateView(CreateView):
     model = get_user_model()
@@ -331,13 +342,27 @@ class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
             return self.form_invalid(form)
 
 
+class ProjectDeleteView(LoginRequiredMixin, DeleteView, AccessMixin):
+    model = Project
+    success_url = reverse_lazy("tasks:projects-list")
+    template_name = "tasks/confirm_delete.html"
+
+
 
 class TeamCreateView(LoginRequiredMixin, CreateView):
     model = Team
     form_class = TeamCreateForm
+    template_name = "tasks/team_form.html"
+    success_url = reverse_lazy("tasks:teams-list")
 
 
 class TeamListView(LoginRequiredMixin, ListView):
     model = Team
     context_object_name = "teams"
     template_name = "tasks/teams_list.html"
+
+
+class TeamDeleteView(LoginRequiredMixin, DeleteView, AccessMixin):
+    model = Team
+    success_url = reverse_lazy("tasks:teams-list")
+    template_name = "tasks/confirm_delete.html"
