@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
@@ -59,7 +60,12 @@ class Worker(AbstractUser):
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    members = models.ManyToManyField(Worker, related_name="team")
+    members = models.ManyToManyField(Worker, related_name="teams")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='created_teams'
+    )
 
     def __str__(self):
         return self.name
@@ -71,7 +77,14 @@ class Project(DeadlineMixin, models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='projects')
     assignees = models.ManyToManyField(
-        Worker, related_name='assigned_projects', related_query_name='assigned_projects'
+        Worker,
+        related_name='assigned_projects',
+        related_query_name='assigned_projects'
+    )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='created_projects'
     )
 
     def __str__(self):

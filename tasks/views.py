@@ -16,7 +16,7 @@ from django.views.generic import (
 )
 
 from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm, TaskCreateForm, \
-    TeamCreateForm
+    TeamCreateForm, TeamSearchForm, ProjectSearchForm
 from tasks.models import (
     Task,
     TaskType,
@@ -46,17 +46,23 @@ def index(request):
 
 
 class AccessMixin:
-    model = None  # Model should be defined in the subclass
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
-        if not request.user in obj.assignees.all() and not request.user == obj.creator:
+
+        if not self.has_access(obj, request.user):
             return HttpResponseForbidden("You don't have access to this object.")
+
         return super().dispatch(request, *args, **kwargs)
 
-
-class TaskAccessMixin(AccessMixin):
-    model = Task
+    def has_access(self, obj, user):
+        if hasattr(obj, 'assignees'):
+            if user in obj.assignees.all():
+                return True
+        if hasattr(obj, 'created_by'):
+            if user == obj.created_by:
+                return True
+        return False
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -150,7 +156,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         return Task.objects.select_related('task_type').prefetch_related('assignees')
 
 
-class TaskUpdateView(TaskAccessMixin, UpdateView):
+class TaskUpdateView(AccessMixin, UpdateView, LoginRequiredMixin):
     model = Task
     form_class = TaskCreateForm
     template_name = "tasks/task_update.html"
@@ -203,10 +209,11 @@ class TaskTypeCreateView(LoginRequiredMixin, CreateView):
     fields = ["name"]
 
 
-class TaskTypeDeleteView(LoginRequiredMixin, CreateView, AccessMixin):
+class TaskTypeDeleteView(LoginRequiredMixin, DeleteView, AccessMixin):
     model = TaskType
-    success_url = reverse_lazy("tasks:tasktype-list")
+    success_url = reverse_lazy("tasks:taskstype-list")
     template_name = "tasks/confirm_delete.html"
+
 
 class WorkerCreateView(CreateView):
     model = get_user_model()
@@ -279,7 +286,24 @@ class ProjectListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        form = ProjectSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            start_date = form.cleaned_data["start_date"]
+            deadline = form.cleaned_data["deadline"]
+
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+            if start_date:
+                queryset = queryset.filter(start_date__gte=start_date)
+            if deadline:
+                queryset = queryset.filter(deadline__lte=deadline)
         return queryset.filter(assignees=self.request.user)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context["search_form"] = ProjectSearchForm(self.request.GET)
+        return context
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -307,11 +331,7 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
     template_name = "tasks/project_detail.html"
 
 
-class ProjectAccessMixin(AccessMixin):
-    model = Project
-
-
-class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
+class ProjectUpdateView(AccessMixin, LoginRequiredMixin, UpdateView):
     model = Project
     form_class = ProjectCreateForm
     template_name = "tasks/project_update.html"
@@ -322,31 +342,34 @@ class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['workers'] = Worker.objects.all()
+        context["workers"] = Worker.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
 
-        if 'status' in request.POST:
-            new_status = request.POST.get('status')
+        if "status" in request.POST:
+            new_status = request.POST.get("status")
             if new_status is not None:
-                self.object.is_completed = new_status == 'True'
+                self.object.is_completed = new_status == "True"
                 self.object.save()
-                return redirect(request.META.get('HTTP_REFERER', 'tasks:tasks-list'))
+                return redirect(request.META.get("HTTP_REFERER", "tasks:tasks-list"))
 
         if form.is_valid():
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
 
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
 
-class ProjectDeleteView(LoginRequiredMixin, DeleteView, AccessMixin):
+
+class ProjectDeleteView(AccessMixin, DeleteView):
     model = Project
-    success_url = reverse_lazy("tasks:projects-list")
+    success_url = reverse_lazy("projects:list")
     template_name = "tasks/confirm_delete.html"
-
 
 
 class TeamCreateView(LoginRequiredMixin, CreateView):
@@ -355,14 +378,48 @@ class TeamCreateView(LoginRequiredMixin, CreateView):
     template_name = "tasks/team_form.html"
     success_url = reverse_lazy("tasks:teams-list")
 
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
 
 class TeamListView(LoginRequiredMixin, ListView):
     model = Team
     context_object_name = "teams"
     template_name = "tasks/teams_list.html"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = TeamSearchForm(self.request.GET)
 
-class TeamDeleteView(LoginRequiredMixin, DeleteView, AccessMixin):
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            start_date = form.cleaned_data["start_date"]
+
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+            if start_date:
+                queryset = queryset.filter(start_date__gte=start_date)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["search_form"] = TeamSearchForm(self.request.GET or None)
+        return context
+
+
+class TeamDeleteView(AccessMixin, DeleteView):
     model = Team
     success_url = reverse_lazy("tasks:teams-list")
-    template_name = "tasks/confirm_delete.html"
+
+
+class TeamDetailView(LoginRequiredMixin, DetailView):
+    model = Team
+    context_object_name = "team"
+    template_name = "tasks/team_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_creator'] = (self.request.session.get('team_creator') == self.request.user.id)
+        return context
