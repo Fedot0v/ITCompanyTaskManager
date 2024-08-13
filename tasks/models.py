@@ -70,6 +70,9 @@ class Project(DeadlineMixin, models.Model):
     description = models.TextField()
     start_date = models.DateTimeField(auto_now_add=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='projects')
+    assignees = models.ManyToManyField(
+        Worker, related_name='assigned_projects', related_query_name='assigned_projects'
+    )
 
     def __str__(self):
         return self.name

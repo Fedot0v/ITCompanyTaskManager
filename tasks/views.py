@@ -172,6 +172,7 @@ class TaskUpdateView(TaskAccessMixin, UpdateView):
             if new_status is not None:
                 self.object.is_completed = new_status == 'True'
                 self.object.save()
+                return redirect(request.META.get('HTTP_REFERER', 'tasks:tasks-list'))
 
         if form.is_valid():
             return self.form_valid(form)
@@ -312,6 +313,23 @@ class ProjectUpdateView(ProjectAccessMixin, LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['workers'] = Worker.objects.all()
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+
+        if 'status' in request.POST:
+            new_status = request.POST.get('status')
+            if new_status is not None:
+                self.object.is_completed = new_status == 'True'
+                self.object.save()
+                return redirect(request.META.get('HTTP_REFERER', 'tasks:tasks-list'))
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
 
 
 class TeamCreateView(LoginRequiredMixin, CreateView):
