@@ -33,14 +33,14 @@ class DeadlineMixin(models.Model):
 
 
 class TaskType(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Position(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
@@ -59,12 +59,12 @@ class Worker(AbstractUser):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     members = models.ManyToManyField(Worker, related_name="teams")
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='created_teams'
+        related_name="created_teams"
     )
 
     def __str__(self):
@@ -72,10 +72,13 @@ class Team(models.Model):
 
 
 class Project(DeadlineMixin, models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     start_date = models.DateTimeField(auto_now_add=True)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='projects')
+    teams = models.ManyToManyField(
+        Team,
+        related_name="projects"
+    )
     assignees = models.ManyToManyField(
         Worker,
         related_name='assigned_projects',
@@ -98,7 +101,7 @@ class Task(DeadlineMixin, models.Model):
         "medium": "Medium",
         "low": "Low",
     }
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     deadline = models.DateTimeField()
     priority = models.CharField(
