@@ -91,6 +91,11 @@ class ProjectCreateForm(DeadlineValidationMixin, forms.ModelForm):
         required=False,
         widget=forms.CheckboxSelectMultiple
     )
+    teams = forms.ModelMultipleChoiceField(
+        queryset=Team.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple
+    )
     class Meta:
         model = Project
         fields = "__all__"
@@ -100,7 +105,7 @@ class ProjectCreateForm(DeadlineValidationMixin, forms.ModelForm):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         if user:
-            self.fields["team"].queryset = Team.objects.filter(members=user)
+            self.fields["teams"].queryset = Team.objects.filter(members=user)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Create Project'))
