@@ -11,8 +11,19 @@ from .views import (
     UserTaskListView,
     WorkerDetailView,
     WorkerListView,
-    TaskUpdateView, WorkerUpdateView, ProjectListView, ProjectCreateView, ProjectDetailView, ProjectUpdateView,
-    TeamCreateView, TeamListView, TeamDeleteView, ProjectDeleteView, TaskTypeDeleteView, TaskDeleteView, TeamDetailView,
+    TaskUpdateView,
+    WorkerUpdateView,
+    ProjectListView,
+    ProjectCreateView,
+    ProjectDetailView,
+    ProjectUpdateView,
+    TeamCreateView,
+    TeamListView,
+    TeamDeleteView,
+    ProjectDeleteView,
+    TaskTypeDeleteView,
+    TaskDeleteView,
+    TeamDetailView,
     TeamUpdateView
 )
 

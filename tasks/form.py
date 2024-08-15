@@ -99,6 +99,7 @@ class ProjectCreateForm(DeadlineValidationMixin, forms.ModelForm):
         required=False,
         widget=forms.CheckboxSelectMultiple
     )
+
     class Meta:
         model = Project
         fields = "__all__"

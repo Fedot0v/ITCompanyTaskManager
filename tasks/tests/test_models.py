@@ -3,6 +3,7 @@ from django.utils import timezone
 from tasks.models import Task, Team, TaskType, Project
 from django.contrib.auth import get_user_model
 
+
 class TaskModelTest(TestCase):
 
     @classmethod
@@ -21,7 +22,7 @@ class TaskModelTest(TestCase):
         cls.project = Project.objects.create(
             name="Test Project",
             team=cls.team,
-            deadline = timezone.now() + timezone.timedelta(days=5),
+            deadline=timezone.now() + timezone.timedelta(days=5),
             created_by=cls.user,
         )
         cls.task = Task.objects.create(
