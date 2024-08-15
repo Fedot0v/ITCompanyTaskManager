@@ -29,14 +29,17 @@ def index(request):
     """View function for the home page of the site."""
     user = request.user
     if user.is_authenticated:
-        num_tasks = Task.objects.filter(assignees=user).count()  # Filter by user
-        num_of_available_tasks = Task.objects.filter(assignees=user, is_completed=False).count()
-        num_of_completed_tasks = Task.objects.filter(assignees=user, is_completed=True).count()
+        num_tasks = Task.objects.filter(assignees=user).count()
+        num_of_available_tasks = Task.objects.filter(
+            assignees=user,
+            is_completed=False
+        ).count()
+        num_of_completed_tasks = Task.objects.filter(
+            assignees=user,
+            is_completed=True
+        ).count()
     else:
         num_tasks = num_of_available_tasks = num_of_completed_tasks = 0
-    # num_tasks = Task.objects.filter().count()
-    # num_of_available_tasks = Task.objects.filter(is_completed=False).count()
-    # num_of_completed_tasks = Task.objects.filter(is_completed=True).count()
     context = {
         "num_tasks": num_tasks,
         "num_of_available_tasks": num_of_available_tasks,
@@ -51,15 +54,17 @@ class AccessMixin:
         obj = self.get_object()
 
         if not self.has_access(obj, request.user):
-            return HttpResponseForbidden("You don't have access to this object.")
+            return HttpResponseForbidden(
+                "You don't have access to this object."
+            )
 
         return super().dispatch(request, *args, **kwargs)
 
     def has_access(self, obj, user):
-        if hasattr(obj, 'assignees'):
+        if hasattr(obj, "assignees"):
             if user in obj.assignees.all():
                 return True
-        if hasattr(obj, 'created_by'):
+        if hasattr(obj, "created_by"):
             if user == obj.created_by:
                 return True
         return False
@@ -72,7 +77,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        queryset = super().get_queryset().order_by('-deadline')
+        queryset = super().get_queryset().order_by("-deadline")
         form = TaskSearchForm(self.request.GET)
 
         if form.is_valid():
@@ -88,26 +93,30 @@ class TaskListView(LoginRequiredMixin, ListView):
             if tasktype:
                 queryset = queryset.filter(task_type=tasktype)
             if status == 'pending':
-                queryset = queryset.filter(is_completed=False, deadline__gte=timezone.now())
+                queryset = queryset.filter(
+                    is_completed=False,
+                    deadline__gte=timezone.now()
+                )
             elif status == 'completed':
                 queryset = queryset.filter(is_completed=True)
             elif status == 'overdue':
-                queryset = queryset.filter(deadline__lt=timezone.now(), is_completed=False)
+                queryset = queryset.filter(
+                    deadline__lt=timezone.now(),
+                    is_completed=False
+                )
 
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
-        assignees = self.request.GET.getlist("assignees")  # Use getlist for multiple selections
+        assignees = self.request.GET.getlist("assignees")
         tasktype = self.request.GET.get("tasktype", "")
         status = self.request.GET.get("status", "")
 
-        # Make sure to convert assignees and tasktype to the appropriate types if needed
         context['search_form'] = TaskSearchForm(initial={
             "name": name,
             "assignees": assignees,
-            # This might need to be adjusted based on how ModelMultipleChoiceField handles input
             "tasktype": tasktype,
             "status": status
         })
@@ -153,7 +162,9 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "tasks/task_detail.html"
 
     def get_queryset(self):
-        return Task.objects.select_related('task_type').prefetch_related('assignees')
+        return Task.objects.select_related(
+            "task_type"
+        ).prefetch_related("assignees")
 
 
 class TaskUpdateView(AccessMixin, UpdateView, LoginRequiredMixin):
@@ -166,19 +177,25 @@ class TaskUpdateView(AccessMixin, UpdateView, LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         context["task_types"] = TaskType.objects.all()
         context["workers"] = Worker.objects.all()
-        context['assignees'] = self.object.assignees.values_list('id', flat=True)
+        context["assignees"] = self.object.assignees.values_list(
+            "id",
+            flat=True
+        )
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
 
-        if 'status' in request.POST:
-            new_status = request.POST.get('status')
+        if "status" in request.POST:
+            new_status = request.POST.get("status")
             if new_status is not None:
-                self.object.is_completed = new_status == 'True'
+                self.object.is_completed = new_status == "True"
                 self.object.save()
-                return redirect(request.META.get('HTTP_REFERER', 'tasks:tasks-list'))
+                return redirect(request.META.get(
+                    "HTTP_REFERER",
+                    "tasks:tasks-list"
+                ))
 
         if form.is_valid():
             return self.form_valid(form)
@@ -186,7 +203,10 @@ class TaskUpdateView(AccessMixin, UpdateView, LoginRequiredMixin):
             return self.form_invalid(form)
 
     def get_success_url(self):
-        return reverse_lazy("tasks:tasks-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "tasks:tasks-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView, AccessMixin):
@@ -264,7 +284,10 @@ class WorkerUpdateView(LoginRequiredMixin, UpdateView):
     context_object_name = "worker"
 
     def get_success_url(self):
-        return reverse_lazy("tasks:worker-detail", kwargs={"pk": self.object.id})
+        return reverse_lazy(
+            "tasks:worker-detail",
+            kwargs={"pk": self.object.id}
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -313,16 +336,20 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['workers'] = Worker.objects.all()
+        context["workers"] = Worker.objects.all()
+        context["teams"] = Team.objects.all()
         return context
 
     def get_success_url(self):
-        return reverse_lazy("tasks:projects-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "tasks:projects-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class ProjectDetailView(LoginRequiredMixin, DetailView):
@@ -338,7 +365,10 @@ class ProjectUpdateView(AccessMixin, LoginRequiredMixin, UpdateView):
     context_object_name = "project"
 
     def get_success_url(self):
-        return reverse_lazy("tasks:projects-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "tasks:projects-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -354,7 +384,9 @@ class ProjectUpdateView(AccessMixin, LoginRequiredMixin, UpdateView):
             if new_status is not None:
                 self.object.is_completed = new_status == "True"
                 self.object.save()
-                return redirect(request.META.get("HTTP_REFERER", "tasks:tasks-list"))
+                return redirect(
+                    request.META.get("HTTP_REFERER", "tasks:tasks-list")
+                )
 
         if form.is_valid():
             return self.form_valid(form)
@@ -421,5 +453,17 @@ class TeamDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['is_creator'] = (self.request.session.get('team_creator') == self.request.user.id)
+        context['is_creator'] = (self.request.session.get(
+            'team_creator'
+        ) == self.request.user.id)
         return context
+
+
+class TeamUpdateView(LoginRequiredMixin, AccessMixin, UpdateView):
+    model = Team
+    form_class = TeamCreateForm
+    template_name = "tasks/team_form.html"
+    context_object_name = "team"
+
+    def get_success_url(self):
+        return reverse_lazy("tasks:teams-detail", kwargs={"pk":self.object.pk})
