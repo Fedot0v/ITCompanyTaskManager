@@ -15,8 +15,16 @@ from django.views.generic import (
     CreateView, UpdateView, DeleteView
 )
 
-from tasks.form import WorkerCreateForm, WorkerSearchForm, TaskSearchForm, ProjectCreateForm, TaskCreateForm, \
-    TeamCreateForm, TeamSearchForm, ProjectSearchForm
+from tasks.form import (
+    WorkerCreateForm,
+    WorkerSearchForm,
+    TaskSearchForm,
+    ProjectCreateForm,
+    TaskCreateForm,
+    TeamCreateForm,
+    TeamSearchForm,
+    ProjectSearchForm
+)
 from tasks.models import (
     Task,
     TaskType,
@@ -477,4 +485,7 @@ class TeamUpdateView(LoginRequiredMixin, AccessMixin, UpdateView):
     context_object_name = "team"
 
     def get_success_url(self):
-        return reverse_lazy("tasks:teams-detail", kwargs={"pk":self.object.pk})
+        return reverse_lazy(
+            "tasks:teams-detail",
+            kwargs={"pk":self.object.pk}
+        )

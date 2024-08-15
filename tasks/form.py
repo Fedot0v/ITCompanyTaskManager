@@ -67,7 +67,10 @@ class DeadlineValidationMixin:
         is_completed = cleaned_data.get('is_completed')
 
         if is_completed and deadline and deadline < timezone.now():
-            self.add_error('deadline', "The deadline cannot be in the past when marked as completed.")
+            self.add_error(
+                "deadline",
+                "The deadline cannot be in the past when marked as completed."
+            )
         return cleaned_data
 
 
@@ -109,7 +112,9 @@ class ProjectCreateForm(DeadlineValidationMixin, forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Create Project'))
-        self.fields['deadline'].widget = forms.DateInput(attrs={'type': 'date'})
+        self.fields['deadline'].widget = (
+            forms.DateInput(attrs={'type': 'date'})
+        )
 
 
 class TaskCreateForm(DeadlineValidationMixin, forms.ModelForm):
@@ -128,13 +133,15 @@ class TaskCreateForm(DeadlineValidationMixin, forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Create Task'))
-        self.fields['deadline'].widget = forms.DateInput(attrs={'type': 'date'})
+        self.fields['deadline'].widget = (
+            forms.DateInput(attrs={'type': 'date'})
+        )
 
 
 class TeamCreateForm(forms.ModelForm):
     members = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple(attrs={"class": "form-control"})
     )
 
     class Meta:
@@ -148,7 +155,6 @@ class TeamCreateForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Create Team'))
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
-        self.fields['description'].widget.attrs.update({'class': 'form-control'})
         self.fields['members'].widget.attrs.update({'class': 'form-control'})
 
 
