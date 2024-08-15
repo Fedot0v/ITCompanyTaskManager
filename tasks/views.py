@@ -156,6 +156,17 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         context['workers'] = Worker.objects.all()
         return context
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        task = form.instance
+
+        if task.team:
+            users_in_team = task.team.members.all()
+            for user in users_in_team:
+                if task not in user.task.all():
+                    user.task.add(task)
+        return response
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
