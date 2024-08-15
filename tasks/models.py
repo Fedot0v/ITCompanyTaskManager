@@ -126,3 +126,13 @@ class Task(DeadlineMixin, models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        is_new_task = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_new_task and self.team:
+            users_in_team = self.team.members.all()
+            for user in users_in_team:
+                if self not in user.task.all():
+                    user.task.add(self)
