@@ -89,7 +89,7 @@ class ProjectCreateForm(DeadlineValidationMixin, forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         required=False,
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple(attrs={"class": "form-control"})
     )
     teams = forms.ModelMultipleChoiceField(
         queryset=Team.objects.all(),
@@ -115,13 +115,20 @@ class ProjectCreateForm(DeadlineValidationMixin, forms.ModelForm):
 class TaskCreateForm(DeadlineValidationMixin, forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple(attrs={"class": "form-control"})
     )
 
     class Meta:
         model = Task
         fields = "__all__"
         exclude = ["start_date", "is_completed"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Create Task'))
+        self.fields['deadline'].widget = forms.DateInput(attrs={'type': 'date'})
 
 
 class TeamCreateForm(forms.ModelForm):
@@ -134,6 +141,15 @@ class TeamCreateForm(forms.ModelForm):
         model = Team
         fields = "__all__"
         exclude = ["start_date", "is_completed", "created_by"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Create Team'))
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['members'].widget.attrs.update({'class': 'form-control'})
 
 
 class TeamSearchForm(forms.Form):
