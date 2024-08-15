@@ -1,0 +1,204 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Update Project{% endblock %}
+
+{% block body_class %}project-update{% endblock %}
+
+{% block stylesheets %}
+  <style>
+      .page-header {
+          position: relative;
+          width: 100%;
+          height: 30vh;
+          background: url("{{ ASSETS_ROOT }}/img/project-design-in-project-management.png") center center no-repeat;
+          background-size: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          border-radius: 0 0 20px 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+          z-index: 1;
+      }
+
+      .page-header::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+          z-index: 1;
+      }
+
+      .page-header h1 {
+          position: relative;
+          z-index: 2;
+          color: #fff;
+          font-size: 2.5em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .project-update-content {
+          position: relative;
+          margin-top: -120px;
+          padding: 2rem;
+          background-color: #f9f9f9;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          z-index: 2;
+      }
+
+      .project-update-card {
+          max-width: 900px;
+          margin: auto;
+          border-radius: 8px;
+          overflow: hidden;
+      }
+
+      .card-body {
+          padding: 2rem;
+      }
+
+      .form-group {
+          margin-bottom: 1.5rem;
+      }
+
+      .form-control {
+          border-radius: 4px;
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+          width: 100%;
+      }
+
+      .form-control:focus {
+          border-color: #007bff;
+          box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+      }
+
+      .btn {
+          border-radius: 4px;
+          padding: 0.75rem 1.25rem;
+          font-size: 1rem;
+          margin-right: 0.5rem;
+      }
+
+      .btn-primary {
+          background-color: #007bff;
+          border: none;
+          color: white;
+      }
+
+      .btn-primary:hover {
+          background-color: #0056b3;
+      }
+
+      .btn-secondary {
+          background-color: #6c757d;
+          border: none;
+          color: white;
+      }
+
+      .btn-secondary:hover {
+          background-color: #5a6268;
+      }
+
+      .btn-warning {
+          background-color: #ffc107;
+          border: none;
+          color: black;
+      }
+
+      .btn-warning:hover {
+          background-color: #e0a800;
+      }
+
+      .status-button {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          font-weight: bold;
+          color: white;
+          text-align: center;
+          text-decoration: none;
+      }
+
+      .status-completed {
+          background-color: #28a745;
+      }
+
+      .status-pending {
+          background-color: #ffc107;
+      }
+
+      .status-overdue {
+          background-color: #dc3545;
+      }
+
+      .status-button:hover {
+          opacity: 0.9;
+      }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <header>
+    <div class="page-header">
+      <h1 class="text-center"><strong>Update Project</strong></h1>
+    </div>
+  </header>
+
+  <div class="container mt-4">
+    <div class="project-update-content">
+      <div class="row">
+        <div class="col-12 col-md-10">
+          <div class="card border-light project-update-card">
+            <div class="card-body">
+              <form method="post" action="{% url 'tasks:projects-update' project.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="name">Project Name</label>
+                  <input type="text" id="name" name="name" class="form-control" value="{{ project.name }}">
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="description" name="description" class="form-control"
+                            rows="4">{{ project.description }}</textarea>
+                </div>
+                <div class="form-group">
+                  <label for="team">Team</label>
+                  <select id="team" name="team" class="form-control">
+                    {% for team in teams %}
+                      <option value="{{ team.id }}"
+                              {% if project.team.id == team.id %}selected{% endif %}>{{ team.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="assignees">Assignees</label>
+                  {{ form.assignees }}
+                </div>
+                <div class="form-group">
+                  <label for="deadline">Deadline</label>
+                  <input type="date" id="deadline" name="deadline" class="form-control"
+                         value="{{ project.deadline|date:'Y-m-d' }}">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </form>
+            </div>
+
+            <div class="card-footer">
+              <a href="{% url 'tasks:projects-detail' project.id %}" class="btn btn-secondary">Back to Project
+                Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <!-- Include specific JS for project_update if needed -->
+{% endblock javascripts %}

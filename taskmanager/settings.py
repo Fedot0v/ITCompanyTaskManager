@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "tasks",
     "crispy_forms",
+    "crispy_bootstrap4",
     "widget_tweaks",
 ]
 

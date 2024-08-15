@@ -1,0 +1,147 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Team Detail{% endblock %}
+
+{% block body_class %}team-detail{% endblock %}
+
+{% block stylesheets %}
+  <style>
+      .page-header {
+          position: relative;
+          width: 100%;
+          height: 30vh;
+          background: url("{{ ASSETS_ROOT }}/img/teamwork-quotes.png") center center no-repeat;
+          background-size: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          border-radius: 0 0 20px 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+          z-index: 1;
+      }
+
+      .page-header::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+          z-index: 1;
+      }
+
+      .page-header h1 {
+          position: relative;
+          z-index: 2;
+          color: #fff;
+          font-size: 2.5em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .team-detail-content {
+          position: relative;
+          margin-top: -120px;
+          padding: 2rem;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          z-index: 2;
+          margin-bottom: 20px;
+      }
+
+      .team-detail-card {
+          max-width: 1500px;
+          margin: auto;
+      }
+
+      .team-member {
+          margin-bottom: 0.5rem;
+      }
+
+      .status-button {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          font-weight: bold;
+          color: white;
+          text-align: center;
+          text-decoration: none;
+      }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <header>
+    <div class="page-header">
+      <h1 class="text-center"><strong>{{ team.name }}</strong></h1>
+    </div>
+  </header>
+
+  <div class="container mt-4">
+    <div class="team-detail-content">
+      <div class="row">
+        <div class="col-12 col-md-10">
+          <div class="card border-light team-detail-card">
+            <div class="card-body">
+              <h5 class="card-title">Team Members</h5>
+              {% if team.members.all %}
+                <ul>
+                  {% for member in team.members.all %}
+                    <a href="{% url 'tasks:worker-detail' pk=member.id %}">
+                      <li class="team-member">{{ member.get_full_name }} ({{ member.position }})</li>
+                    </a>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>No members in this team</p>
+              {% endif %}
+
+              <h5 class="card-title">Tasks</h5>
+              {% if team.task_set.all %}
+                <ul>
+                  {% for task in team.task_set.all %}
+                    <a href="{% url 'tasks:tasks-detail' pk=task.id %}">
+                      <li class="team-member">{{ task.name }} - {{ task.priority }} - {{ task.deadline }}</li>
+                    </a>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>No tasks assigned to this team</p>
+              {% endif %}
+              <h5 class="card-title">Projects</h5>
+              {% if team.projects.all %}
+                <ul>
+                  {% for project in team.projects.all %}
+                    <a href="{% url 'tasks:projects-detail' pk=project.id %}">
+                      <li>{{ project.name }}</li>
+                    </a>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>No tasks assigned to this team</p>
+              {% endif %}
+            </div>
+            {% if request.user == team.created_by %}
+              <div class="card-footer">
+                <a href="{% url "tasks:teams-update" pk=team.id %}" class="btn btn-info">Edit</a>
+
+                <form action="{% url 'tasks:teams-delete' pk=team.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <!-- Include specific JS for team_detail if needed -->
+{% endblock javascripts %}

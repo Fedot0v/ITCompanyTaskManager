@@ -1,0 +1,158 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} All tasks {% endblock %}
+
+{% block body_class %} tasks-list {% endblock %}
+
+
+{% block stylesheets %}
+  <style>
+      .page-header {
+          position: relative;
+          width: 97vw;
+          height: 30vh;
+          background: url("{{ ASSETS_ROOT }}/img/people-management-cover.jpg") center center no-repeat;
+          background-size: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden; /* Убрать часть изображения при закруглении углов */
+          border-radius: 0 0 20px 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      .page-header::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+      }
+
+      .page-header h1 {
+          z-index: 1;
+          color: #fff;
+          font-size: 2.5em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .mask {
+          background: rgba(0, 0, 0, 0.5);
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+
+      .card {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add some shadows for better depth perception */
+          transition: all 0.3s ease; /* Animation for hover effect */
+      }
+
+      .card:hover {
+          transform: translateY(-10px); /* Move the card up when hovered */
+      }
+
+      .task-status {
+          margin-bottom: 10px; /* Add some margin for better separation */
+          font-weight: bold; /* Make the status label bold */
+      }
+
+      .text-gradient {
+          background: linear-gradient(90deg, #ff8a00, #e52e71); /* Gradient text color */
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+      }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <header>
+    <div class="page-header">
+      <h1>All tasks</h1>
+      <div class="mask"></div>
+    </div>
+  </header>
+
+  <div class="container mt-5">
+    <form method="get" action="{% url 'tasks:tasks-list' %}">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          {{ search_form.name.label_tag }} {{ search_form.name }}
+        </div>
+        <div class="col-md-4 mb-3">
+          {{ search_form.assignees.label_tag }} {{ search_form.assignees }}
+        </div>
+        <div class="col-md-4 mb-3">
+          {{ search_form.tasktype.label_tag }} {{ search_form.tasktype }}
+        </div>
+        <div class="col-md-4 mb-3">
+          {{ search_form.status.label_tag }} {{ search_form.status }}
+        </div>
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
+  
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for task in tasks %}
+        <div class="col">
+          <div class="card h-100">
+            {% if task.status == "Pending" %}
+              <img src="{% static 'assets/img/istockphoto-1327437190-612x612.jpg' %}" class="card-img-top"
+                   alt="Task Image">
+            {% elif task.status == "Overdue" %}
+              <img src="{% static 'assets/img/6117066.png' %}"
+                   class="card-img-top"
+                   alt="Task Image">
+            {% else %}
+              <img src="{% static 'assets/img/task-complete-icon-2048x2048-w9dgm0at.png' %}" class="card-img-top"
+                   alt="Task Image">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title templatemo-text-orange">{{ task.name }}</h5>
+              <span class="card-text">
+                <small class="text-muted">{{ task.category }}</small>
+              </span>
+              <p class="card-text mt-3">{{ task.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                {% if task.status == "Pending" %}
+                  <div class="task-status text-warning">
+                    Days Remaining: <span>{{ task.days_remaining }}</span>
+                  </div>
+                {% elif task.status == "Completed" %}
+                  <div class="task-status text-success">
+                    Status: Completed
+                    <!-- Optionally, you could show days_remaining here if you want -->
+                  </div>
+                {% elif task.status == "Overdue" %}
+                  <div class="task-status text-danger">
+                    Overdue by: <span>{{ task.days_remaining }}</span> days
+                  </div>
+                {% else %}
+                  <div class="task-status text-muted">
+                    Status: Not Available
+                  </div>
+                {% endif %}
+              </li>
+            </ul>
+            <div class="card-body">
+              <a href="{% url 'tasks:tasks-detail' pk=task.id %}" class="btn btn-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <!-- Include specific JS for tasks_list if needed -->
+{% endblock javascripts %}

@@ -1,0 +1,151 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} Edit Worker {% endblock %}
+
+{% block body_class %} worker-update {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+  <style>
+      .worker-update-header {
+          background-image: url('{{ ASSETS_ROOT }}/img/profilepictureglasses_600.jpg');
+          background-position: center;
+          height: 500px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          position: relative;
+          z-index: 1;
+      }
+
+      .worker-update-header .mask {
+          background: rgba(0, 0, 0, 0.5);
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+      }
+
+      .worker-update-header h1 {
+          position: relative;
+          z-index: 2;
+      }
+
+      .worker-update-content {
+          position: relative;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          padding: 20px;
+          margin-top: -100px; /* Adjust to overlap the background image */
+          z-index: 2;
+      }
+
+      .form-control:focus {
+          border-color: #007bff; /* Blue border on focus */
+          box-shadow: none;
+      }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <header>
+    <div class="worker-update-header">
+      <div class="mask"></div>
+      <h1 class="text-center text-white"><strong>Edit Worker</strong></h1>
+    </div>
+  </header>
+
+  <div class="container mt-4">
+    <div class="worker-update-content">
+      <form method="post" action="{% url 'tasks:workers-update' pk=worker.id %}">
+        {% csrf_token %}
+
+        {% if form.errors %}
+          <div class="alert alert-danger">
+            Please correct the errors below.
+          </div>
+        {% endif %}
+
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" value="{{ form.username.value }}"
+                 required>
+          {% if form.username.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.username.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="first_name" class="form-label">First Name</label>
+          <input type="text" class="form-control" id="first_name" name="first_name" value="{{ form.first_name.value }}"
+                 required>
+          {% if form.first_name.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.first_name.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="last_name" class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="last_name" name="last_name" value="{{ form.last_name.value }}"
+                 required>
+          {% if form.last_name.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.last_name.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="{{ form.email.value }}" required>
+          {% if form.email.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="position" class="form-label">Position</label>
+          <select id="position" name="position" class="form-select" required>
+            {% for position in positions %}
+              <option value="{{ position.id }}"
+                      {% if position.id == worker.position.id %}selected{% endif %}>{{ position.name }}</option>
+            {% endfor %}
+          </select>
+          {% if form.position.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.position.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'tasks:workers-list' %}" class="btn btn-secondary ms-2">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script src="{{ ASSETS_ROOT }}/js/your-custom-scripts.js"></script>
+{% endblock javascripts %}

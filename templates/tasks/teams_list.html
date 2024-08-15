@@ -1,0 +1,119 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} Team List {% endblock %}
+{% block body_class %} team-list {% endblock %}
+
+{% block stylesheets %}
+  <style>
+      .page-header {
+          position: relative;
+          width: 97vw;
+          height: 30vh;
+          background: url("{{ ASSETS_ROOT }}/img/teamwork-quotes.png") center center;
+          background-size: contain;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          border-radius: 0 0 20px 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      .page-header::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+      }
+
+      .page-header h1 {
+          z-index: 1;
+          color: #fff;
+          font-size: 2.5em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .mask {
+          background: rgba(0, 0, 0, 0.5);
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+
+      .card {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
+      }
+
+      .card:hover {
+          transform: translateY(-10px);
+      }
+
+      .team-status {
+          margin-bottom: 10px;
+          font-weight: bold;
+      }
+
+      .search-form {
+          margin-bottom: 20px;
+      }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <header>
+    <div class="page-header">
+      <div class="mask"></div>
+      <h1>Team List</h1>
+    </div>
+  </header>
+
+  <div class="container mt-5">
+    <!-- Search Form -->
+    <form method="get" action="{% url 'tasks:teams-list' %}">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          {{ search_form.name.label_tag }} {{ search_form.name }}
+        </div>
+        <div class="col-md-4 mb-3">
+          {{ search_form.start_date.label_tag }} {{ search_form.start_date }}
+        </div>
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for team in teams %}
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'assets/img/team-icon-symbol-sign-vector.jpg' %}" class="card-img-top"
+                 alt="Team Image">
+            <div class="card-body">
+              <h5 class="card-title templatemo-text-orange">{{ team.name }}</h5>
+              <p class="card-text mt-3">{{ team.description }}</p>
+              <p class="card-text">
+                <small class="text-muted">Members: {{ team.members.count }}</small>
+              </p>
+            </div>
+            <div class="card-body">
+              <a href="{% url 'tasks:teams-detail' pk=team.id %}" class="btn btn-primary btn-sm">View
+                Details</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <!-- Include specific JS for team_list if needed -->
+{% endblock javascripts %}

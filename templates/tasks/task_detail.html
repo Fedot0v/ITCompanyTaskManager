@@ -1,0 +1,176 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Task Detail{% endblock %}
+
+{% block body_class %}task-detail{% endblock %}
+
+{% block stylesheets %}
+  <style>
+      .page-header {
+          position: relative;
+          width: 100%;
+          height: 30vh;
+          background: url("{{ ASSETS_ROOT }}/img/people-management-cover.jpg") center center no-repeat;
+          background-size: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          border-radius: 0 0 20px 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+          z-index: 1;
+      }
+
+      .page-header::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+          z-index: 1;
+      }
+
+      .page-header h1 {
+          position: relative;
+          z-index: 2;
+          color: #fff;
+          font-size: 2.5em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .task-detail-content {
+          position: relative;
+          margin-top: -120px;
+          padding: 2rem;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          z-index: 2;
+          margin-bottom: 20px;
+      }
+
+      .task-detail-card {
+          max-width: 1500px;
+          margin: auto;
+      }
+
+      .status-button {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          font-weight: bold;
+          color: white;
+          text-align: center;
+          text-decoration: none;
+      }
+
+      .status-completed {
+          background-color: #28a745;
+      }
+
+      .status-pending {
+          background-color: #ffc107;
+      }
+
+      .status-overdue {
+          background-color: #dc3545;
+      }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <header>
+    <div class="page-header">
+      <h1 class="text-center"><strong>{{ task.name }}</strong></h1>
+    </div>
+  </header>
+
+  <div class="container mt-4">
+    <div class="task-detail-content">
+      <div class="row">
+        <div class="col-12 col-md-10">
+          <div class="card border-light task-detail-card">
+            <div class="card-body">
+              <h5 class="card-title">Description</h5>
+              <p class="card-text">{{ task.description }}</p>
+
+              <h5 class="card-title">Details</h5>
+              <p class="card-text"><strong>Deadline:</strong> {{ task.deadline }}</p>
+              <p class="card-text"><strong>Priority:</strong> {{ task.get_priority_display }}</p>
+              <p class="card-text">
+                <strong>Status:</strong>
+                <span class="status-button 
+                                {% if task.status == 'Completed' %}status-completed
+                                {% elif task.status == 'Overdue' %}status-overdue
+                                {% else %}status-pending
+                                {% endif %}">
+                                {{ task.status }}
+                            </span>
+              </p>
+              <p class="card-text"><strong>Task Type:</strong> {{ task.task_type.name }}</p>
+
+              <h5 class="card-title">Assignees</h5>
+              {% if task.assignees.all %}
+                {% for assignee in task.assignees.all %}
+                  <a href="{% url 'tasks:worker-detail' pk=assignee.pk %}">
+                    <li>{{ assignee.get_full_name }}</li>
+                  </a>
+                {% endfor %}
+              {% else %}
+                <p>No assignees</p>
+              {% endif %}
+              <h5 class="card-title">Teams</h5>
+              {% if task.team %}
+                <a href="{% url 'tasks:teams-detail' pk=task.team.pk %}">
+                  <li>{{ task.team.name }}</li>
+                </a>
+              {% else %}
+                <p>No team</p>
+              {% endif %}
+            </div>
+            <h5 class="card-title">Project</h5>
+            {% if task.project %}
+              <ul>
+                <a href="{% url 'tasks:projects-detail' pk=task.project.pk %}">
+                  <li>{{ task.project.name }}</li>
+                </a>
+              </ul>
+            {% else %}
+              <p>No project</p>
+            {% endif %}
+            <div class="card-footer">
+              {% if user in task.assignees.all or user == task.creator %}
+                <a href="{% url 'tasks:tasks-update' pk=task.id %}" class="btn btn-info">Edit</a>
+
+                <form action="{% url 'tasks:tasks-update' pk=task.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <input type="hidden" name="status" value="{% if task.is_completed %}False{% else %}True{% endif %}">
+                  {% if task.is_completed %}
+                    <button type="submit" class="btn btn-warning">Mark as Pending</button>
+                  {% else %}
+                    <button type="submit" class="btn btn-success">Mark as Completed</button>
+                  {% endif %}
+                </form>
+
+                <!-- Delete Button -->
+                <form action="{% url 'tasks:tasks-delete' pk=task.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              {% endif %}
+
+              <a href="{% url 'tasks:tasks-list' %}" class="btn btn-secondary">Back to List</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <!-- Include specific JS for task_detail if needed -->
+{% endblock javascripts %}
