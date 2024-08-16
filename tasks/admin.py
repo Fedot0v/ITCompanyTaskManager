@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Task, Project, Team, Worker, TaskType, Position
+from tasks.models import (
+    Task,
+    Project,
+    Team,
+    Worker,
+    TaskType,
+    Position
+)
 
 
 class TaskAdmin(admin.ModelAdmin):

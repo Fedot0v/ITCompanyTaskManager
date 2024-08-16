@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import (
+from tasks.views import (
     index,
     TaskListView,
     TaskCreateView,
