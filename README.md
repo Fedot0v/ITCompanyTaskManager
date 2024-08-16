@@ -11,7 +11,12 @@ for teams to work together and achieve their goals.
 Run the following commands in your terminal:
 
 ```bash
-git clone https://github.com/Fedot0v/ITCompanyTaskManager.git && cd ITCompanyTaskManager && python3 -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt && python3 manage.py runserver 
+git clone https://github.com/Fedot0v/ITCompanyTaskManager.git 
+cd ITCompanyTaskManager 
+python3 -m venv venv 
+source venv/bin/activate 
+pip3 install -r requirements.txt 
+python3 manage.py runserver 
 ```
 
 After running this command, you can open the project in your browser at `http://127.0.0.1:8000/`.
@@ -34,7 +39,7 @@ password: SuperUserpassword123
 
 **ITCompanyTaskManager** includes the following features:
 
-###Deadline Management
+### Deadline Management
 
 - Adds deadline and completion status functionality.
 
