@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from tasks.models import (
     Task,
     Project,
@@ -20,20 +21,20 @@ class TaskAdmin(admin.ModelAdmin):
         "team__name"
     )
     ordering = ("-deadline",)
-    filter_horizontal = ("assignees",)  # Use filter horizontal widget for assignees
+    filter_horizontal = ("assignees",)
 
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "start_date")
     list_filter = ("teams", "assignees")
     search_fields = ("name", "description")
-    filter_horizontal = ("teams", "assignees")  # Use filter horizontal widget
+    filter_horizontal = ("teams", "assignees")
 
 
 class TeamAdmin(admin.ModelAdmin):
     list_display = ("name", "created_by")
     search_fields = ("name", "created_by__username")
-    filter_horizontal = ("members",)  # Use filter horizontal widget for members
+    filter_horizontal = ("members",)
 
 
 class WorkerAdmin(admin.ModelAdmin):
@@ -52,7 +53,6 @@ class PositionAdmin(admin.ModelAdmin):
     search_fields = ("name",)
 
 
-# Register your models with the admin site
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Team, TeamAdmin)
