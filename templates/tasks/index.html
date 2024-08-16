@@ -4,20 +4,22 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Task Manager - Enhance productivity with our intuitive task management tool. Organize tasks, set deadlines, and track progress effortlessly.">
+  <meta name="description"
+        content="Task Manager - Enhance productivity with our intuitive task management tool. Organize tasks, set deadlines, and track progress effortlessly.">
   <meta property="og:title" content="Task Manager">
   <meta property="og:description" content="Enhance productivity with our intuitive Task Manager.">
   <meta property="og:image" content="{{ ASSETS_ROOT }}/img/Effective_management.jpg">
   <meta property="og:url" content="https://yourwebsite.com">
   <meta name="twitter:card" content="summary_large_image">
-  
+
   <link rel="apple-touch-icon" sizes="76x76" href="{{ ASSETS_ROOT }}/img/apple-icon.png">
   <link rel="icon" type="image/png" href="{{ ASSETS_ROOT }}/img/favicon.png">
 
   <title>Task Manager | Enhance Your Productivity</title>
 
   <!-- Fonts and icons -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
+  <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
   <link href="{{ ASSETS_ROOT }}/css/nucleo-icons.css" rel="stylesheet"/>
   <link href="{{ ASSETS_ROOT }}/css/nucleo-svg.css" rel="stylesheet"/>
   <script src="https://kit.fontawesome.com/latest_version.js" crossorigin="anonymous"></script>
@@ -37,7 +39,9 @@
         <div class="col-lg-8">
           <h1 class="text-white pt-3 mt-n5">Task Manager</h1>
           <p class="lead text-white mt-3">
-            Enhance your productivity with our intuitive Task Manager. Designed to streamline your workflow, our tool helps you organize tasks, set deadlines, and track progress effortlessly. Join thousands of users who are staying on top of their projects with ease and efficiency.
+            Enhance your productivity with our intuitive Task Manager. Designed to streamline your workflow, our tool
+            helps you organize tasks, set deadlines, and track progress effortlessly. Join thousands of users who are
+            staying on top of their projects with ease and efficiency.
           </p>
         </div>
       </div>
@@ -77,7 +81,7 @@
       </div>
     </div>
   </section>
-  
+
   {% include "includes/footer.html" %}
 
   <!-- Core JS Files -->
@@ -92,30 +96,30 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
   <script src="{{ ASSETS_ROOT }}/js/material-kit.min.js?v=3.0.0" type="text/javascript"></script>
   <script type="text/javascript">
-    if (document.getElementById('state1')) {
-        const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
-        if (!countUp.error) {
-            countUp.start();
-        } else {
-            console.error(countUp.error);
-        }
-    }
-    if (document.getElementById('state2')) {
-        const countUp1 = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
-        if (!countUp1.error) {
-            countUp1.start();
-        } else {
-            console.error(countUp1.error);
-        }
-    }
-    if (document.getElementById('state3')) {
-        const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
-        if (!countUp2.error) {
-            countUp2.start();
-        } else {
-            console.error(countUp2.error);
-        }
-    }
+      if (document.getElementById('state1')) {
+          const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
+          if (!countUp.error) {
+              countUp.start();
+          } else {
+              console.error(countUp.error);
+          }
+      }
+      if (document.getElementById('state2')) {
+          const countUp1 = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
+          if (!countUp1.error) {
+              countUp1.start();
+          } else {
+              console.error(countUp1.error);
+          }
+      }
+      if (document.getElementById('state3')) {
+          const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
+          if (!countUp2.error) {
+              countUp2.start();
+          } else {
+              console.error(countUp2.error);
+          }
+      }
   </script>
 </body>
 

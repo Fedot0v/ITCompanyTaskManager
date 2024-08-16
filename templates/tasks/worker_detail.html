@@ -7,65 +7,6 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-  <style>
-      .worker-detail-header {
-          background-image: url('{{ ASSETS_ROOT }}/img/profilepictureglasses_600.jpg');
-          background-position: center;
-          height: 500px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          position: relative;
-      }
-
-      .worker-detail-header .mask {
-          background: rgba(0, 0, 0, 0.5);
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-      }
-
-      .worker-detail-header h1 {
-          position: relative;
-          z-index: 1;
-      }
-
-      .worker-detail-content {
-          margin-top: -100px; /* Adjust to overlap the background image */
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-          padding: 20px;
-          position: relative;
-      }
-
-      .edit-button {
-          background-color: #007bff; /* Blue button background */
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 5px;
-          cursor: pointer;
-          text-decoration: none;
-          font-weight: bold;
-          position: absolute;
-          top: 20px;
-          right: 20px;
-      }
-
-      .edit-button:hover {
-          background-color: #0056b3; /* Darker blue on hover */
-      }
-
-      .text-gradient {
-          background: linear-gradient(90deg, #01415e, #0e0106); /* Gradient text color */
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-      }
-  </style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -82,14 +23,14 @@
         <div class="col-12 col-md-12">
           <div class="card border-light">
             {% if request.user == worker %}
-              <a href="{% url 'tasks:workers-update' pk=worker.id %}" class="edit-button">Edit Worker</a>
+              <a href="{% url 'tasks:workers-update' pk=worker.id %}" class="edit-button-worker-detail">Edit Worker</a>
             {% endif %}
             <div class="card-body">
               <h5 class="card-title">Details</h5>
-              <p class="text-gradient"><strong>Name:</strong> {{ worker.get_full_name }}</p>
-              <p class="text-gradient"><strong>Email:</strong> {{ worker.email }}</p>
-              <p class="text-gradient"><strong>Position:</strong> {{ worker.position }}</p>
-              <p class="text-gradient"><strong>Tasks Assigned:</strong></p>
+              <p class="text-gradient-worker-detail"><strong>Name:</strong> {{ worker.get_full_name }}</p>
+              <p class="text-gradient-worker-detail"><strong>Email:</strong> {{ worker.email }}</p>
+              <p class="text-gradient-worker-detail"><strong>Position:</strong> {{ worker.position }}</p>
+              <p class="text-gradient-worker-detail"><strong>Tasks Assigned:</strong></p>
               <div class="tasks-assigned">
                 {% if worker.task.all %}
                   <ul class="list-unstyled">

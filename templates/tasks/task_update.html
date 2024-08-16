@@ -7,113 +7,6 @@
 
 {% block stylesheets %}
   <style>
-      .page-header {
-          position: relative;
-          width: 100%;
-          height: 30vh;
-          background: url("{{ ASSETS_ROOT }}/img/people-management-cover.jpg") center center no-repeat;
-          background-size: cover;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          overflow: hidden;
-          border-radius: 0 0 20px 20px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-          z-index: 1;
-      }
-
-      .page-header::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
-          z-index: 1;
-      }
-
-      .page-header h1 {
-          position: relative;
-          z-index: 2;
-          color: #fff;
-          font-size: 2.5em;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-
-      .task-update-content {
-          position: relative;
-          margin-top: -120px;
-          padding: 2rem;
-          background-color: #f9f9f9;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          z-index: 2;
-      }
-
-      .task-update-card {
-          max-width: 900px;
-          margin: auto;
-          border-radius: 8px;
-          overflow: hidden;
-      }
-
-      .card-body {
-          padding: 2rem;
-      }
-
-      .form-group {
-          margin-bottom: 1.5rem;
-      }
-
-      .form-control {
-          border-radius: 4px;
-          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-          width: 100%;
-      }
-
-      .form-control:focus {
-          border-color: #007bff;
-          box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-      }
-
-      .btn {
-          border-radius: 4px;
-          padding: 0.75rem 1.25rem;
-          font-size: 1rem;
-          margin-right: 0.5rem;
-      }
-
-      .btn-primary {
-          background-color: #007bff;
-          border: none;
-          color: white;
-      }
-
-      .btn-primary:hover {
-          background-color: #0056b3;
-      }
-
-      .btn-secondary {
-          background-color: #6c757d;
-          border: none;
-          color: white;
-      }
-
-      .btn-secondary:hover {
-          background-color: #5a6268;
-      }
-
-      .btn-warning {
-          background-color: #ffc107;
-          border: none;
-          color: black;
-      }
-
-      .btn-warning:hover {
-          background-color: #e0a800;
-      }
-
       .status-button {
           display: inline-block;
           padding: 0.5rem 1rem;
@@ -123,28 +16,12 @@
           text-align: center;
           text-decoration: none;
       }
-
-      .status-completed {
-          background-color: #28a745;
-      }
-
-      .status-pending {
-          background-color: #ffc107;
-      }
-
-      .status-overdue {
-          background-color: #dc3545;
-      }
-
-      .status-button:hover {
-          opacity: 0.9;
-      }
   </style>
 {% endblock stylesheets %}
 
 {% block content %}
   <header>
-    <div class="page-header">
+    <div class="page-header-task-update">
       <h1 class="text-center"><strong>Update Task</strong></h1>
     </div>
   </header>
@@ -154,67 +31,68 @@
       <div class="row">
         <div class="col-12 col-md-10">
           <div class="card border-light task-update-card">
-            <div class="card-body">
+            <div class="card-body-task-update">
               <form method="post" action="{% url 'tasks:tasks-update' task.id %}">
                 {% csrf_token %}
-                <div class="form-group">
+                <div class="form-group-task-update">
                   <label for="name">Task Name</label>
-                  <input type="text" id="name" name="name" class="form-control" value="{{ task.name }}">
+                  <input type="text" id="name" name="name" class="form-control-task-update" value="{{ task.name }}">
                 </div>
-                <div class="form-group">
+                <div class="form-group-task-update">
                   <label for="description">Description</label>
-                  <textarea id="description" name="description" class="form-control"
+                  <textarea id="description" name="description" class="form-control-task-update"
                             rows="4">{{ task.description }}</textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group-task-update">
                   <label for="deadline">Deadline</label>
-                  <input type="datetime-local" id="deadline" name="deadline" class="form-control"
+                  <input type="datetime-local" id="deadline" name="deadline" class="form-control-task-update"
                          value="{{ task.deadline|date:'Y-m-d\TH:i' }}">
                 </div>
-                <div class="form-group">
+                <div class="form-group-task-update">
                   <label for="priority">Priority</label>
-                  <select id="priority" name="priority" class="form-control">
+                  <select id="priority" name="priority" class="form-control-task-update">
                     <option value="urgent" {% if task.priority == "urgent" %}selected{% endif %}>Urgent</option>
                     <option value="high" {% if task.priority == "high" %}selected{% endif %}>High</option>
                     <option value="medium" {% if task.priority == "medium" %}selected{% endif %}>Medium</option>
                     <option value="low" {% if task.priority == "low" %}selected{% endif %}>Low</option>
                   </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group-task-update">
                   <label for="task_type">Task Type</label>
-                  <select id="task_type" name="task_type" class="form-control">
+                  <select id="task_type" name="task_type" class="form-control-task-update">
                     {% for type in task_types %}
                       <option value="{{ type.id }}"
                               {% if task.task_type.id == type.id %}selected{% endif %}>{{ type.name }}</option>
                     {% endfor %}
                   </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group-task-update">
                   <label for="assignees">Assignees</label>
                   {{ form.assignees }}
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn-task-update btn-task-update-primary">Save Changes</button>
               </form>
 
               <!-- Form to change the status -->
               <form action="{% url 'tasks:tasks-update' pk=task.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
                 <input type="hidden" name="status" value="{% if task.is_completed %}False{% else %}True{% endif %}">
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn-task-update btn-task-update-success">
                   {% if task.is_completed %}Mark as Pending{% else %}Mark as Completed{% endif %}
                 </button>
               </form>
               <form action="{% url 'tasks:tasks-update' pk=task.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
                 <input type="hidden" name="status" value="Pending">
-                <button type="submit" class="btn btn-warning">
+                <button type="submit" class="btn-task-update btn-task-update-warning">
                   Mark as Pending
                 </button>
               </form>
             </div>
 
             <div class="card-footer">
-              <a href="{% url 'tasks:tasks-detail' task.id %}" class="btn btn-secondary">Back to Task Details</a>
+              <a href="{% url 'tasks:tasks-detail' task.id %}" class="btn-task-update btn-task-update-secondary">Back to
+                Task Details</a>
             </div>
           </div>
         </div>
