@@ -27,7 +27,7 @@ python manage.py manage.py loaddata taskmanager_db.json
 After loading data from the fixture you can use the following superuser:
 ```
 login: SuperUser
-password: SuperUserpasswrod123
+password: SuperUserpassword123
 ```
 
 ## Features
