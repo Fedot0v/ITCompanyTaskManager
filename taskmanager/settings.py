@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECRET_KEY is retrieved from environment variables or a .env file for security purposes.
-SECRET_KEY = config("+axos4i$2ba1nhibhx4=)j&a8e+2o_fu&=+$c4^5_-cej(@%zu")
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
