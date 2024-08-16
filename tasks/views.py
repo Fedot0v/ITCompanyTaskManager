@@ -56,25 +56,31 @@ def index(request):
 
 
 class AccessMixin:
+    """A mixin to handle access control for view objects.
+    dispath method checks if the user has access to the object before dispatching the request.
+    has_access method determines if the user has access to the given object.
+    """
 
-    def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object()
 
-        if not self.has_access(obj, request.user):
-            return HttpResponseForbidden(
-                "You don't have access to this object."
-            )
+def dispatch(self, request, *args, **kwargs):
+    obj = self.get_object()
 
-        return super().dispatch(request, *args, **kwargs)
+    if not self.has_access(obj, request.user):
+        return HttpResponseForbidden(
+            "You don't have access to this object."
+        )
 
-    def has_access(self, obj, user):
-        if hasattr(obj, "assignees"):
-            if user in obj.assignees.all():
-                return True
-        if hasattr(obj, "created_by"):
-            if user == obj.created_by:
-                return True
-        return False
+    return super().dispatch(request, *args, **kwargs)
+
+
+def has_access(self, obj, user):
+    if hasattr(obj, "assignees"):
+        if user in obj.assignees.all():
+            return True
+    if hasattr(obj, "created_by"):
+        if user == obj.created_by:
+            return True
+    return False
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -177,7 +183,6 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
-
     model = Task
     template_name = "tasks/task_detail.html"
 

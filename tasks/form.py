@@ -55,7 +55,12 @@ class TaskSearchForm(forms.Form):
 
 
 class DeadlineValidationMixin:
+    """A mixin to validate deadlines for form or model data.
+    """
+
     def clean_deadline(self):
+        """Validate that the deadline is not set to a time in the past."""
+
         deadline = self.cleaned_data.get('deadline')
         if deadline and deadline < timezone.now():
             raise ValidationError("The deadline cannot be in the past.")

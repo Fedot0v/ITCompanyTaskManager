@@ -5,6 +5,10 @@ from django.utils import timezone
 
 
 class DeadlineMixin(models.Model):
+    """Deadline mixin that adds deadline and completion status functionality to a model.
+    days_remaining() method returns the number of days remaining until the deadline, or a message if overdue.
+    status() method return the current status of the object based on its completion and deadline.
+    """
     deadline = models.DateTimeField()
     is_completed = models.BooleanField(default=False)
 
@@ -126,6 +130,9 @@ class Task(DeadlineMixin, models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        """Override the save method, this method will add the task to each member of the team,
+         if they do not already have it assigned"""
+
         is_new_task = self.pk is None
         super().save(*args, **kwargs)
 
