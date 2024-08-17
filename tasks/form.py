@@ -13,7 +13,8 @@ from tasks.models import Worker, Position, Task, TaskType, Project, Team
 class WorkerCreateForm(UserCreationForm):
     position = forms.ModelChoiceField(
         queryset=Position.objects.all(),
-        empty_label=None
+        empty_label=None,
+        required=False,
     )
 
     class Meta:
