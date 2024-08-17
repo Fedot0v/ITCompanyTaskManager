@@ -502,3 +502,4 @@ class PositionCreateView(LoginRequiredMixin, CreateView):
     template_name = "tasks/position_form.html"
     context_object_name = "position"
     success_url = reverse_lazy("")
+    fields = ["name"]
