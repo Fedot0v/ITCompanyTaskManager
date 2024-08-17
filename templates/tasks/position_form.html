@@ -1,8 +1,8 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Create New Task Type {% endblock %}
+{% block title %} Create New Position {% endblock %}
 
-{% block body_class %} tasktype-form {% endblock %}
+{% block body_class %} position-form {% endblock %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -22,7 +22,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              <h3 class="mb-4">Create New Task Type</h3>
+              <h3 class="mb-4">Create New Position</h3>
             </div>
           </div>
           <div class="row">
@@ -30,11 +30,11 @@
               <form method="post">
                 {% csrf_token %}
                 <div class="mb-3">
-                  <label for="name" class="form-label">Task Type Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter task type name"
+                  <label for="name" class="form-label">Position Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter position name"
                          required>
                 </div>
-                <button type="submit" class="btn bg-gradient-info mb-3">Create Task Type</button>
+                <button type="submit" class="btn bg-gradient-info mb-3">Create Position</button>
               </form>
             </div>
           </div>
