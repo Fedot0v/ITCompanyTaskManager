@@ -24,7 +24,8 @@ from tasks.views import (
     TaskTypeDeleteView,
     TaskDeleteView,
     TeamDetailView,
-    TeamUpdateView
+    TeamUpdateView,
+    PositionCreateView
 )
 
 app_name = "tasks"
@@ -105,5 +106,10 @@ urlpatterns = [
         "teams/<int:pk>/update/",
         TeamUpdateView.as_view(),
         name="teams-update"
-    )
+    ),
+    path(
+        "position/create/",
+        PositionCreateView.as_view(),
+        name="position-form"
+    ),
 ]
