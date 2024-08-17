@@ -495,3 +495,10 @@ class TeamUpdateView(LoginRequiredMixin, AccessMixin, UpdateView):
             "tasks:teams-detail",
             kwargs={"pk": self.object.pk}
         )
+
+
+class PositionCreateView(LoginRequiredMixin, CreateView):
+    model = Position
+    template_name = "tasks/position_form.html"
+    context_object_name = "position"
+    success_url = reverse_lazy("")
