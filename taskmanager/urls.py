@@ -25,8 +25,16 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("tasks.urls", namespace="tasks")),
-    path("accounts/logout/confirm/", TemplateView.as_view(template_name='registration/logout_confirm.html'),
+    path(
+        "accounts/logout/confirm/",
+        TemplateView.as_view(
+            template_name='registration/logout_confirm.html'
+        ),
          name='logout-confirm'),
-    path("accounts/logout/", LogoutView.as_view(next_page='login'), name='logout'),
+    path(
+        "accounts/logout/",
+        LogoutView.as_view(next_page='login'),
+        name='logout'
+    ),
     path("accounts/", include("django.contrib.auth.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
