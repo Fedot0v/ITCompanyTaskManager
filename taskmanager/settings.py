@@ -14,6 +14,7 @@ from os import getenv
 from pathlib import Path
 
 import environ
+from django.contrib import staticfiles
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
