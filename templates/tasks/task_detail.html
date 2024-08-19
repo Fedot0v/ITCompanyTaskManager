@@ -6,11 +6,84 @@
 {% block body_class %}task-detail{% endblock %}
 
 {% block stylesheets %}
+  <style>
+      .page-header {
+          position: relative;
+          width: 100%;
+          height: 30vh;
+          background: url("{{ ASSETS_ROOT }}/img/people-management-cover.jpg") center center no-repeat;
+          background-size: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          border-radius: 0 0 20px 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+          z-index: 1;
+      }
+
+      .page-header::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+          z-index: 1;
+      }
+
+      .page-header h1 {
+          position: relative;
+          z-index: 2;
+          color: #fff;
+          font-size: 2.5em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .task-detail-content {
+          position: relative;
+          margin-top: -120px;
+          padding: 2rem;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          z-index: 2;
+          margin-bottom: 20px;
+      }
+
+      .task-detail-card {
+          max-width: 1500px;
+          margin: auto;
+      }
+
+      .status-button {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          font-weight: bold;
+          color: white;
+          text-align: center;
+          text-decoration: none;
+      }
+
+      .status-completed {
+          background-color: #28a745;
+      }
+
+      .status-pending {
+          background-color: #ffc107;
+      }
+
+      .status-overdue {
+          background-color: #dc3545;
+      }
+  </style>
 {% endblock stylesheets %}
 
 {% block content %}
   <header>
-    <div class="page-header-task-detail">
+    <div class="page-header">
       <h1 class="text-center"><strong>{{ task.name }}</strong></h1>
     </div>
   </header>
@@ -29,7 +102,7 @@
               <p class="card-text"><strong>Priority:</strong> {{ task.get_priority_display }}</p>
               <p class="card-text">
                 <strong>Status:</strong>
-                <span class="status-button-task-detail 
+                <span class="status-button 
                                 {% if task.status == 'Completed' %}status-completed
                                 {% elif task.status == 'Overdue' %}status-overdue
                                 {% else %}status-pending

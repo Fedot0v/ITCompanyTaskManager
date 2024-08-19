@@ -1,0 +1,1032 @@
+.page-header {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.page-header h1 {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.project-update-content {
+    position: relative;
+    margin-top: -120px;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+.project-update-card {
+    max-width: 900px;
+    margin: auto;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+.btn {
+    border-radius: 4px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: black;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.status-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.status-completed {
+    background-color: #28a745;
+}
+
+.status-pending {
+    background-color: #ffc107;
+}
+
+.status-overdue {
+    background-color: #dc3545;
+}
+
+.status-button:hover {
+    opacity: 0.9;
+}
+
+.page-header-all-tasks {
+    position: relative;
+    width: 97vw;
+    height: 30vh;
+    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Убрать часть изображения при закруглении углов */
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-all-tasks::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.page-header-all-tasks h1 {
+    z-index: 1;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mask-all-tasks {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-all-tasks {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.card-all-tasks:hover {
+    transform: translateY(-10px);
+}
+
+.task-status-all-tasks {
+    margin-bottom: 10px;
+}
+
+.page-header-project-detail {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.page-header-project-detail::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.page-header-project-detail h1 {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.project-detail-content {
+    position: relative;
+    margin-top: -120px;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    margin-bottom: 20px;
+}
+
+.project-detail-card {
+    max-width: 1500px;
+    margin: auto;
+}
+
+.status-button-project-detail {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.form-container-project-form {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
+
+.page-header-project-form {
+    position: relative;
+    width: 100%;
+    height: 35vh;
+    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-project-form::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.page-header-project-form h1 {
+    z-index: 1;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mask-project-form {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.page-header-project-list {
+    position: relative;
+    width: 97vw;
+    height: 30vh;
+    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-project-list::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.page-header-project-list h1 {
+    z-index: 1;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mask-project-list {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-project-list {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.card-project-list:hover {
+    transform: translateY(-10px);
+}
+
+.project-status {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.search-form {
+    margin-bottom: 20px;
+}
+
+.page-header-task-detail {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.page-header-task-detail::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.page-header-task-detail h1 {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.task-detail-content {
+    position: relative;
+    margin-top: -120px;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    margin-bottom: 20px;
+}
+
+.task-detail-card {
+    max-width: 1500px;
+    margin: auto;
+}
+
+.status-button-task-detail {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.page-header-task-update {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.page-header-task-update::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.page-header-task-update h1 {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.task-update-content {
+    position: relative;
+    margin-top: -120px;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+.task-update-card {
+    max-width: 900px;
+    margin: auto;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-body-task-update {
+    padding: 2rem;
+}
+
+.form-task-update-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-task-update-control {
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.form-task-update-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+.btn-task-update {
+    border-radius: 4px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+}
+
+.btn-task-update-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+.btn-task-update-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-task-update-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+}
+
+.btn-task-update-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-task-update-warning {
+    background-color: #ffc107;
+    border: none;
+    color: black;
+}
+
+.btn-task-update-warning:hover {
+    background-color: #e0a800;
+}
+
+.form-tasks-form-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
+
+.form-tasks-form-control:focus {
+    box-shadow: none;
+    border-color: #007bff;
+}
+
+.btn-tasks-form-custom {
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+}
+
+.page-header-tasks-form {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-tasks-form::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.page-header-tasks-form h1 {
+    z-index: 1;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mask-tasks-form {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.page-header-tasks-list {
+    position: relative;
+    width: 98vw;
+    height: 35vh;
+    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-tasks-list::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.page-header-tasks-list h1 {
+    z-index: 1;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mask-tasks-list {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-tasks-list {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.card-tasks-list:hover {
+    transform: translateY(-10px);
+}
+
+.task-status {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.page-header-tasktype-list {
+    position: relative;
+    width: 97vw;
+    height: 25vh;
+    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-tasktype-list::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.mask-tasktype-list {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.header-content-tasktype-list {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.btn-tasktype-list-create-task-type {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.btn-tasktype-list-create-task-type:hover {
+    background-color: #0056b3;
+}
+
+.card-tasktype-list {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-tasktype-list:hover {
+    transform: translateY(-10px);
+}
+
+.card-tasktype-list-body {
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-tasktype-list-img-top {
+    height: 200px;
+    width: 100%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.card-tasktype-list-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn-tasktype-list-primary {
+    margin-top: 1rem;
+}
+
+.btn-tasktype-list-danger {
+    margin-top: 1rem;
+}
+
+.page-header-team-detail {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: url("static/assets/img/teamwork-quotes.png") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+.page-header-team-detail::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.page-header-team-detail h1 {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.team-detail-content {
+    position: relative;
+    margin-top: -120px;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    margin-bottom: 20px;
+}
+
+.team-detail-card {
+    max-width: 1500px;
+    margin: auto;
+}
+
+.team-member {
+    margin-bottom: 0.5rem;
+}
+
+.form-team-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
+
+.form-team-control:focus {
+    box-shadow: none;
+    border-color: #007bff;
+}
+
+.btn-team-custom {
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+}
+
+.page-header-team {
+    position: relative;
+    width: 100%;
+    height: 30vh;
+    background: url("static/assets/img/teamwork-quotes.png") center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-team::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.page-header-team h1 {
+    z-index: 1;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mask-team {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.page-header-team-list {
+    position: relative;
+    width: 97vw;
+    height: 30vh;
+    background: url("static/assets/img/teamwork-quotes.png") center center;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.page-header-team-list::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+.page-header-team-list h1 {
+    z-index: 1;
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mask-team-list {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-team-list {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.card-team-list:hover {
+    transform: translateY(-10px);
+}
+
+.worker-detail-header {
+    background-image: url('static/assets/img/profilepictureglasses_600.jpg');
+    background-position: center;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: relative;
+}
+
+.worker-detail-header .mask {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.worker-detail-header h1 {
+    position: relative;
+    z-index: 1;
+}
+
+.worker-detail-content {
+    margin-top: -100px; /* Adjust to overlap the background image */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    position: relative;
+}
+
+.edit-button {
+    background-color: #007bff; /* Blue button background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.edit-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.text-gradient-worker {
+    background: linear-gradient(90deg, #01415e, #0e0106); /* Gradient text color */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.worker-update-header {
+    background-image: url('static/assets/img/profilepictureglasses_600.jpg');
+    background-position: center;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.worker-update-header .mask {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.worker-update-header h1 {
+    position: relative;
+    z-index: 2;
+}
+
+.worker-update-content {
+    position: relative;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: -100px; /* Adjust to overlap the background image */
+    z-index: 2;
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: none;
+}
+
+.worker-detail-header {
+    background-image: url('static/assets/img/profilepictureglasses_600.jpg');
+    background-position: center;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: relative;
+}
+
+.worker-detail-header .mask {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.worker-detail-header h1 {
+    position: relative;
+    z-index: 1;
+}
+
+.card-worker-list-custom {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add some shadows for better depth perception */
+    transition: all 0.3s ease; /* Animation for card-worker-list hover effects */
+}
+
+.card-worker-list-custom:hover {
+    transform: scale(1.02, 1.02); /* Enlarge card-worker-list on hover */
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Makes the image round */
+    margin-bottom: 15px;
+}

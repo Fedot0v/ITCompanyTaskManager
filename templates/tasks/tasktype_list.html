@@ -6,13 +6,112 @@
 {% block body_class %} tasks-list {% endblock %}
 
 {% block stylesheets %}
+  <style>
+      .page-header {
+          position: relative;
+          width: 97vw;
+          height: 25vh;
+          background: url("{{ ASSETS_ROOT }}/img/people-management-cover.jpg") center center no-repeat;
+          background-size: cover;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          border-radius: 0 0 20px 20px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      .page-header::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+      }
+
+      .mask {
+          background: rgba(0, 0, 0, 0.5);
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+
+      .header-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 1;
+      }
+
+      .btn-create-task-type {
+          background-color: #007bff;
+          color: white;
+          padding: 10px 20px;
+          font-size: 1rem;
+          border-radius: 5px;
+          text-decoration: none;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          transition: background-color 0.3s ease;
+      }
+
+      .btn-create-task-type:hover {
+          background-color: #0056b3;
+      }
+
+      .card {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
+          border-radius: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+      }
+
+      .card:hover {
+          transform: translateY(-10px);
+      }
+
+      .card-body {
+          padding: 1.5rem;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+
+      .card-img-top {
+          height: 200px;
+          width: 100%;
+          object-fit: contain;
+          display: block;
+          margin: 0 auto;
+      }
+
+      .card-title {
+          font-size: 1.25rem;
+          margin-bottom: 0.5rem;
+      }
+
+      .btn-primary {
+          margin-top: 1rem;
+      }
+
+      .btn-danger {
+          margin-top: 1rem;
+      }
+  </style>
 {% endblock stylesheets %}
 
 {% block content %}
   <header>
-    <div class="page-header-tasktype-list">
-      <div class="mask-tasktype-list"></div>
-      <div class="header-content-tasktype-list">
+    <div class="page-header">
+      <div class="mask"></div>
+      <div class="header-content">
         <a href="{% url 'tasks:tasktype-form' %}" class="btn btn-create-task-type">Create Task Type</a>
       </div>
     </div>
@@ -22,14 +121,14 @@
     <div class="row">
       {% for task_type in tasks_types %}
         <div class="col-12 col-sm-10 col-xl-6 mb-5 mb-lg-0">
-          <div class="card-tasktype-list border-light">
-            <img src="{% static 'assets/img/9513475.png' %}" class="card-tasktype-list-img-top rounded-top" alt="Task Image">
-            <div class="card-tasktype-list-body">
-              <span class="card-tasktype-list-title"><i class="fas fa-medal mr-2"></i>{{ task_type.name }}</span>
-              <a href="#" class="btn btn-primary-taskstype-list btn-sm">All tasks by this type</a>
+          <div class="card border-light">
+            <img src="{% static 'assets/img/9513475.png' %}" class="card-img-top rounded-top" alt="Task Image">
+            <div class="card-body">
+              <span class="card-title"><i class="fas fa-medal mr-2"></i>{{ task_type.name }}</span>
+              <a href="#" class="btn btn-primary btn-sm">All tasks by this type</a>
               <form action="{% url 'tasks:taskstype-delete' pk=task_type.pk %}" method="post" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger-taskstype-list btn-sm">Delete</button>
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
               </form>
             </div>
           </div>
