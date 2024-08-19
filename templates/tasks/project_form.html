@@ -7,59 +7,12 @@
 {% block stylesheets %}
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
-  <style>
-      .form-container {
-          max-width: 700px;
-          margin: auto;
-          padding: 20px;
-      }
-
-      .page-header {
-          position: relative;
-          width: 100%;
-          height: 35vh;
-          background: url("{{ ASSETS_ROOT }}/img/project-design-in-project-management.png") center center no-repeat;
-          background-size: cover;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          overflow: hidden;
-          border-radius: 0 0 20px 20px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-      }
-
-      .page-header::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
-      }
-
-      .page-header h1 {
-          z-index: 1;
-          color: #fff;
-          font-size: 2.5em;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-
-      .mask {
-          background: rgba(0, 0, 0, 0.5);
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-      }
-  </style>
 {% endblock stylesheets %}
 
 {% block content %}
   <header>
-    <div class="page-header">
-      <div class="mask"></div>
+    <div class="page-header-project-form">
+      <div class="mask-project-form"></div>
       <h1>Create New Project</h1>
     </div>
   </header>
@@ -67,7 +20,7 @@
   <div class="container mt-5">
     <div class="card shadow-sm">
       <div class="card-body">
-        <form method="post" class="form-container">
+        <form method="post" class="form-container-project-form">
           {% csrf_token %}
           {{ form|crispy }}
           <button type="submit" class="btn btn-success">Create Project</button>

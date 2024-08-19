@@ -1,8 +1,8 @@
-.page-header {
+.page-header-project-update {
     position: relative;
     width: 100%;
     height: 30vh;
-    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background: url("/static/assets/img/project-design-in-project-management.png") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -13,7 +13,7 @@
     z-index: 1;
 }
 
-.page-header::after {
+.page-header-project-update::after {
     content: "";
     position: absolute;
     top: 0;
@@ -24,7 +24,7 @@
     z-index: 1;
 }
 
-.page-header h1 {
+.page-header-project-update h1 {
     position: relative;
     z-index: 2;
     color: #fff;
@@ -135,12 +135,12 @@
     position: relative;
     width: 97vw;
     height: 30vh;
-    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background: url("/static/assets/img/people-management-cover.jpg") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Убрать часть изображения при закруглении углов */
+    overflow: hidden;
     border-radius: 0 0 20px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
@@ -172,12 +172,49 @@
 }
 
 .card-all-tasks {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s;
 }
 
 .card-all-tasks:hover {
-    transform: translateY(-10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-all-tasks-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-all-tasks-body {
+    padding: 15px;
+}
+
+.card-all-tasks-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.card-all-tasks-text {
+    color: #333;
+}
+
+.task-status-all-tasks {
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
 }
 
 .task-status-all-tasks {
@@ -188,7 +225,7 @@
     position: relative;
     width: 100%;
     height: 30vh;
-    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background: url("/static/assets/img/project-design-in-project-management.png") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -254,7 +291,7 @@
     position: relative;
     width: 100%;
     height: 35vh;
-    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background: url("/static/assets/img/project-design-in-project-management.png") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -294,7 +331,7 @@
     position: relative;
     width: 97vw;
     height: 30vh;
-    background: url("static/assets/img/project-design-in-project-management.png") center center no-repeat;
+    background: url("/static/assets/img/project-design-in-project-management.png") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -352,7 +389,7 @@
     position: relative;
     width: 100%;
     height: 30vh;
-    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background: url("/static/assets/img/people-management-cover.jpg") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -412,7 +449,7 @@
     position: relative;
     width: 100%;
     height: 30vh;
-    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background: url("/static/assets/img/people-management-cover.jpg") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -539,7 +576,7 @@
     position: relative;
     width: 100%;
     height: 30vh;
-    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background: url("/static/assets/img/people-management-cover.jpg") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -579,7 +616,7 @@
     position: relative;
     width: 98vw;
     height: 35vh;
-    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background: url("/static/assets/img/people-management-cover.jpg") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -615,13 +652,50 @@
     left: 0;
 }
 
-.card-tasks-list {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+.card-all-tasks {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s;
 }
 
 .card-tasks-list:hover {
-    transform: translateY(-10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-tasks-list-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-tasks-list-body {
+    padding: 15px;
+}
+
+.card-tasks-list-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.card-tasks-list-text {
+    color: #333;
+}
+
+.task-status-tasks-list {
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
 }
 
 .task-status {
@@ -633,7 +707,7 @@
     position: relative;
     width: 97vw;
     height: 25vh;
-    background: url("static/assets/img/people-management-cover.jpg") center center no-repeat;
+    background: url("/static/assets/img/people-management-cover.jpg") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -731,7 +805,7 @@
     position: relative;
     width: 100%;
     height: 30vh;
-    background: url("static/assets/img/teamwork-quotes.png") center center no-repeat;
+    background: url("/static/assets/img/teamwork-quotes.png") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -805,7 +879,7 @@
     position: relative;
     width: 100%;
     height: 30vh;
-    background: url("static/assets/img/teamwork-quotes.png") center center no-repeat;
+    background: url("/static/assets/img/teamwork-quotes.png") center center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -845,7 +919,7 @@
     position: relative;
     width: 97vw;
     height: 30vh;
-    background: url("static/assets/img/teamwork-quotes.png") center center;
+    background: url("/static/assets/img/teamwork-quotes.png") center center;
     background-size: contain;
     display: flex;
     justify-content: center;
@@ -891,7 +965,7 @@
 }
 
 .worker-detail-header {
-    background-image: url('static/assets/img/profilepictureglasses_600.jpg');
+    background-image: url('/static/assets/img/profilepictureglasses_600.jpg');
     background-position: center;
     height: 500px;
     display: flex;
@@ -949,7 +1023,7 @@
 }
 
 .worker-update-header {
-    background-image: url('static/assets/img/profilepictureglasses_600.jpg');
+    background-image: url('/static/assets/img/profilepictureglasses_600.jpg');
     background-position: center;
     height: 500px;
     display: flex;
@@ -981,17 +1055,17 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    margin-top: -100px; /* Adjust to overlap the background image */
+    margin-top: -100px;
     z-index: 2;
 }
 
 .form-control:focus {
-    border-color: #007bff; /* Blue border on focus */
+    border-color: #007bff;
     box-shadow: none;
 }
 
 .worker-detail-header {
-    background-image: url('static/assets/img/profilepictureglasses_600.jpg');
+    background-image: url('/static/assets/img/profilepictureglasses_600.jpg');
     background-position: center;
     height: 500px;
     display: flex;
@@ -1016,8 +1090,8 @@
 }
 
 .card-worker-list-custom {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add some shadows for better depth perception */
-    transition: all 0.3s ease; /* Animation for card-worker-list hover effects */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .card-worker-list-custom:hover {

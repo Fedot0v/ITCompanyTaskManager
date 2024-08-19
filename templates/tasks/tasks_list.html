@@ -5,71 +5,12 @@
 {% block body_class %} tasks-list {% endblock %}
 
 {% block stylesheets %}
-  <style>
-      .page-header {
-          position: relative;
-          width: 98vw;
-          height: 35vh;
-          background: url("{{ ASSETS_ROOT }}/img/people-management-cover.jpg") center center no-repeat;
-          background-size: cover;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          overflow: hidden;
-          border-radius: 0 0 20px 20px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-      }
-
-      .page-header::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
-      }
-
-      .page-header h1 {
-          z-index: 1;
-          color: #fff;
-          font-size: 2.5em;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-
-      .mask {
-          background: rgba(0, 0, 0, 0.5);
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-      }
-
-      .card {
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-          transition: all 0.3s ease;
-      }
-
-      .card:hover {
-          transform: translateY(-10px);
-      }
-
-      .task-status {
-          margin-bottom: 10px;
-          font-weight: bold;
-      }
-
-      .search-form {
-          margin-bottom: 20px;
-      }
-  </style>
 {% endblock stylesheets %}
 
 {% block content %}
   <header>
-    <div class="page-header">
-      <div class="mask"></div>
+    <div class="page-header-tasks-list">
+      <div class="mask-tasks-list"></div>
       <h1>Tasks List</h1>
     </div>
   </header>
@@ -97,24 +38,24 @@
       {% for task in tasks %}
         {% if request.user in task.assignees.all %}
           <div class="col">
-            <div class="card h-100">
+            <div class="card-tasks-list h-100">
               {% if task.status == "Pending" %}
-                <img src="{% static 'assets/img/istockphoto-1327437190-612x612.jpg' %}" class="card-img-top"
+                <img src="{% static 'assets/img/istockphoto-1327437190-612x612.jpg' %}" class="card-tasks-list-img-top"
                      alt="Task Image">
               {% elif task.status == "Overdue" %}
                 <img src="{% static 'assets/img/6117066.png' %}"
-                     class="card-img-top"
+                     class="card-tasks-list-img-top"
                      alt="Task Image">
               {% else %}
-                <img src="{% static 'assets/img/task-complete-icon-2048x2048-w9dgm0at.png' %}" class="card-img-top"
+                <img src="{% static 'assets/img/task-complete-icon-2048x2048-w9dgm0at.png' %}" class="card-tasks-list-img-top"
                      alt="Task Image">
               {% endif %}
-              <div class="card-body">
-                <h5 class="card-title templatemo-text-orange">{{ task.name }}</h5>
-                <span class="card-text">
+              <div class="card-tasks-list-body">
+                <h5 class="card-tasks-list-title templatemo-text-orange">{{ task.name }}</h5>
+                <span class="card-tasks-list-text">
                 <small class="text-muted">{{ task.category }}</small>
               </span>
-                <p class="card-text mt-3">{{ task.description }}</p>
+                <p class="card-tasks-list-text mt-3">{{ task.description }}</p>
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -136,7 +77,7 @@
                   {% endif %}
                 </li>
               </ul>
-              <div class="card-body">
+              <div class="card-tasks-list-body">
                 <a href="{% url 'tasks:tasks-detail' pk=task.id %}" class="btn btn-primary btn-sm">Read More</a>
               </div>
             </div>
@@ -148,5 +89,4 @@
 {% endblock content %}
 
 {% block javascripts %}
-  <!-- Include specific JS for tasks_list if needed -->
 {% endblock javascripts %}

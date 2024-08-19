@@ -6,52 +6,6 @@
 {% block body_class %} workers-list {% endblock %}
 
 {% block stylesheets %}
-  <style>
-      .worker-detail-header {
-          background-image: url('{{ ASSETS_ROOT }}/img/profilepictureglasses_600.jpg');
-          background-position: center;
-          height: 500px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          position: relative;
-      }
-
-      .worker-detail-header .mask {
-          background: rgba(0, 0, 0, 0.5);
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-      }
-
-      .worker-detail-header h1 {
-          position: relative;
-          z-index: 1;
-      }
-
-      .card-custom {
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add some shadows for better depth perception */
-          transition: all 0.3s ease; /* Animation for card hover effects */
-      }
-
-      .card-custom:hover {
-          transform: scale(1.02, 1.02); /* Enlarge card on hover */
-      }
-
-      .profile-image {
-          width: 120px;
-          height: 120px;
-          border-radius: 50%; /* Makes the image round */
-          margin-bottom: 15px;
-      }
-
-      .search-form {
-          margin-bottom: 20px;
-      }
-  </style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -83,12 +37,12 @@
     <div class="row">
       {% for worker in workers %}
         <div class="col-12 col-lg-4 mb-4">
-          <div class="card border-light card-custom text-center">
-            <img src="{% static 'assets/img/7153150.png' %}" class="card-img-top profile-image" alt="Worker Image">
-            <div class="card-body">
-              <h5 class="card-title">{{ worker.get_full_name }}</h5>
-              <p class="card-text">{{ worker.email }}</p>
-              <p class="card-text">{{ worker.position }}</p>
+          <div class="card-worker-list border-light card-worker-list-custom text-center">
+            <img src="{% static 'assets/img/7153150.png' %}" class="card-worker-list-img-top profile-image" alt="Worker Image">
+            <div class="card-worker-list-body">
+              <h5 class="card-worker-list-title">{{ worker.get_full_name }}</h5>
+              <p class="card-worker-list-text">{{ worker.email }}</p>
+              <p class="card-worker-list-text">{{ worker.position }}</p>
               <a href="{% url 'tasks:worker-detail' pk=worker.id %}" class="btn btn-primary btn-sm">View Profile</a>
             </div>
           </div>
