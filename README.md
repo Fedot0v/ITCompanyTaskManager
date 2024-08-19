@@ -10,8 +10,9 @@ for teams to work together and achieve their goals.
 
 [taskmanager Deployed to Render](https://itcompanytaskmanager.onrender.com/)
 ```bash 
-login: SuperUser
-password: SuperUserpassword123
+login: Test
+password: testpassword
+
 ```
 
 ## Installation
