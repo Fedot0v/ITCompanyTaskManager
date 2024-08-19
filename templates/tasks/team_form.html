@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load crispy_forms_filters %}
 
-{% block title %}{{ form-team.instance.pk|yesno:"Edit Team,Create New Team" }}{% endblock %}
+{% block title %}{{ form.instance.pk|yesno:"Edit Team,Create New Team" }}{% endblock %}
 {% block body_class %}team-form-team{% endblock %}
 
 {% block stylesheets %}
@@ -13,7 +13,7 @@
   <header>
     <div class="page-header-team">
       <div class="mask-team"></div>
-      <h1>{{ form-team.instance.pk|yesno:"Edit Team,Create New Team" }}</h1>
+      <h1>{{ form.instance.pk|yesno:"Edit Team,Create New Team" }}</h1>
     </div>
   </header>
 
@@ -22,9 +22,9 @@
       <div class="card-body">
         <form method="post" class="form-team-container">
           {% csrf_token %}
-          {{ form-team|crispy }}
+          {{ form|crispy }}
           <button type="submit"
-                  class="btn-team btn-team-custom btn-team-block">{{ form-team.instance.pk|yesno:"Update Team,Create Team" }}</button>
+                  class="btn-team btn-team-custom btn-team-block">{{ form.instance.pk|yesno:"Update Team,Create Team" }}</button>
         </form>
       </div>
     </div>
