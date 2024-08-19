@@ -21,7 +21,7 @@
         <div class="col-12 col-md-10">
           <div class="card border-light task-update-card">
             <div class="card-body-task-update">
-              <form-task-update method="post" action="{% url 'tasks:tasks-update' task.id %}">
+              <form method="post" action="{% url 'tasks:tasks-update' task.id %}">
                 {% csrf_token %}
                 <div class="form-task-update-group">
                   <label for="name">Task Name</label>
@@ -60,23 +60,23 @@
                   {{ form-task-update.assignees }}
                 </div>
                 <button type="submit" class="btn-task-update btn-task-update-primary">Save Changes</button>
-              </form-task-update>
+              </form>
 
               <!-- form-task-update to change the status -->
-              <form-task-update action="{% url 'tasks:tasks-update' pk=task.id %}" method="post" style="display:inline;">
+              <form action="{% url 'tasks:tasks-update' pk=task.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
                 <input type="hidden" name="status" value="{% if task.is_completed %}False{% else %}True{% endif %}">
                 <button type="submit" class="btn-task-update btn-task-update-success">
                   {% if task.is_completed %}Mark as Pending{% else %}Mark as Completed{% endif %}
                 </button>
-              </form-task-update>
-              <form-task-update action="{% url 'tasks:tasks-update' pk=task.id %}" method="post" style="display:inline;">
+              </form>
+              <form action="{% url 'tasks:tasks-update' pk=task.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
                 <input type="hidden" name="status" value="Pending">
                 <button type="submit" class="btn-task-update btn-task-update-warning">
                   Mark as Pending
                 </button>
-              </form-task-update>
+              </form>
             </div>
 
             <div class="card-footer">
@@ -90,5 +90,4 @@
 {% endblock content %}
 
 {% block javascripts %}
-  <!-- Include specific JS for task_update if needed -->
 {% endblock javascripts %}
